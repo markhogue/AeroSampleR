@@ -25,7 +25,9 @@
 #'
 report_log_mass <- function(df, params, dist) {
 
-    # mass weighted
+  D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = sampled_mass = bin_frac_lost = total_frac_lost = NULL
+
+      # mass weighted
     df %>%
       dplyr::filter(dist == "log_norm") %>%
       dplyr::mutate(bin_eff = purrr::pmap_dbl(

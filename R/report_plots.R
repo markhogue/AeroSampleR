@@ -19,7 +19,7 @@
 #' @export
 #'
 report_plots <- function(df, dist) {
-
+  D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = rel_activity = location = NULL
    if(dist == "discrete") {
      # plot by element, by particle size
     df_long <- df %>%

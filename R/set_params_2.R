@@ -26,7 +26,7 @@ set_params_2 <- function(df, params) {
   # Depo Calc Eq 33: terminal settling velocity
   # Depo Calc Eq 32: Particle Reynolds number (tube)
   # Depo_Calc Eq 7: Stokes number
-
+C_c = v_ts = sys_eff = NULL
 
 df <- df |> dplyr::mutate(
   C_c = 1 + params$mfp / df$D_p *

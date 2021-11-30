@@ -26,9 +26,7 @@ report_basic <- function(df, params, dist) {
 
   # # housekeeping to avoid no visible binding warnings
   # #. = NULL - try this if below doesn't work
-  # utils::globalVariables(c("D_p", "microns", "sys_eff", "probs",
-  #                   "ambient", "bin_eff", "sampled", "."))
-
+  D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = NULL
  # provide parameter details
   cat("System Parameters")
   cat("\n")
