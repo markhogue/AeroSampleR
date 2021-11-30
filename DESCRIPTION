@@ -1,0 +1,27 @@
+Package: AeroSampleR
+Type: Package
+Title: Estimate aerosol particle collection through sample lines
+Version: 0.1.11
+Author: Mark Hogue
+Maintainer: Mark Hogue <mark.hogue@srs.gov>
+Description: Estimate ideal efficiencies of aerosol sampling through sample
+    lines. For simplicity and verification purposes, baseline efficiency 
+    functions will be based on DEPOSITION CALCULATOR TECHNICAL DESCRIPTION 
+    MANUAL, BC-15-RP-003, Version 1.1.1 available from 
+    http://www.bluntconsulting.com/pdf/depo-calc-tech-desc-v111.pdf. This
+    code has been verified at SRS with Q-CLC-G-00128, R0, DEPOSITION 
+    CALCULATOR software validation. From this base, the package will be 
+    broadened as needed for additional models, with the driving original 
+    intent of covering alternative bend models.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: dplyr,
+     purrr,
+     magrittr,
+     tidyr,
+     ggplot2,
+     ggthemes,
+     stringr,
+     tidyselect
+RoxygenNote: 7.1.2
