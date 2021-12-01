@@ -9,4 +9,4 @@ This is the first issuance of AeroSampleR.
 ) and devtools::check_win_devel()
 
 ## R CMD check results
-There were no ERRORs or NOTES. 
+There were no ERRORs or NOTES, aside from the note identifying the maintainer, stating that this is a new submission and identifying suspect word spelling (but these are names that are spelled correctly). 
