@@ -10,10 +10,6 @@
 #' @param df is the particle data set - after transport analysis by element
 #' @param params is the parameter data set for parameters that are not
 #' particle size-dependent
-#' @param dist selects the distribution for the report. Options are
-#' 'discrete' for discrete particle sizes or 'log' for the log-normal
-#' distribution of particles that were started with the `particle_dist`
-#' function.
 #'
 #' @examples
 #' \dontrun{log_mass_results <- report_log_mass(df)}
@@ -23,7 +19,7 @@
 #'
 #' @export
 #'
-report_log_mass <- function(df, params, dist) {
+report_log_mass <- function(df, params) {
 
     D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = sampled_mass = bin_frac_lost = total_frac_lost = NULL
 
