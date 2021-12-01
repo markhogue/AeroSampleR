@@ -30,6 +30,8 @@ report_basic <- function(df, params, dist) {
     # provide parameter details
     cat("System Parameters")
     cat("\n")
+    cat("All values in MKS units, except noted")
+    cat("\n")
     cat("Notes: D_tube is in m.")
     cat("\n")
     cat("Q_lpm is system flow in liters per minute.")
@@ -41,7 +43,9 @@ report_basic <- function(df, params, dist) {
     cat("\n")
     cat("Re is the system Reynolds number, a measure of turbulence.")
     cat("\n")
-    utils::str(params[c(1, 2, 3, 4, 5, 10)])
+    #utils::str(params[c(1, 2, 3, 4, 5, 10)])
+    data.frame(t(params))
+    cat("\n")
 
     if (dist == "discrete") {
         discrete_report <- df %>%
