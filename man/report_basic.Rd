@@ -14,7 +14,7 @@ report_basic(df, params, dist)
 particle size-dependent}
 
 \item{dist}{selects the distribution for the report. Options are
-"discrete" for discrete particle sizes or "log" for the log-normal
+'discrete' for discrete particle sizes or 'log' for the log-normal
 distribution of particles that were started with the `particle_dist`
 function.}
 }
@@ -30,6 +30,6 @@ per examples described in the help set with each. Next, add elements
 in the sample system until all are complete.
 }
 \examples{
-\dontrun{report_eff(df, params, dist = "discrete")}
+\dontrun{report_eff(df, params, dist = 'discrete')}
 
 }

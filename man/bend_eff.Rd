@@ -32,7 +32,7 @@ the `set_params` function. Both of these results must be stored as
 per examples described in the help set with each.
 }
 \examples{
-\dontrun{df <- bend_eff(df, params, method="Zhang", bend_angle=90,
+\dontrun{df <- bend_eff(df, params, method='Zhang', bend_angle=90,
 bend_radius=0.1, elnum=3)}
 }
 \references{

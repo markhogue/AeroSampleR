@@ -2,10 +2,7 @@
 % Please edit documentation in R/particle_dist.R
 \name{particle_dist}
 \alias{particle_dist}
-\title{Make the data frame that will be used throughout this package,
-first to make the ambient distribution of particles, then to
-track efficiency of transport of this data set throughout the
-sampling system.}
+\title{Create a particle distribution}
 \usage{
 particle_dist(
   AMAD = 5,
@@ -31,9 +28,11 @@ a data frame containing a lognormally distributed set of
 particles and discrete particle sizes
 }
 \description{
-Use this function to create a data set to use in transport efficiency
-functions going forward. To create your data, save this data to the
-global environment as shown in the examples
+Needed as a first step in estimating system efficiency.
+Make the data frame that will be used to estimate efficiency of
+variously sized aerosol particles' transport through the sampling
+system. To create your data, save this data to the global
+environment as shown in the examples.
 }
 \details{
 All inputs are in micron AMAD, meaning:

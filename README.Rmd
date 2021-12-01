@@ -1,0 +1,152 @@
+---
+output: github_document
+
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# AeroSampleR  
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/last-month/AeroSampleR?color=blue)](https://r-pkg.org/pkg/AeroSampleR)
+[![Build Status](https://travis-ci.org/markhogue/AeroSampleR.svg?branch=master)](https://travis-ci.org/markhogue/AeroSampleR)
+
+The AeroSampleR package provides aerosol 
+.
+
+## Installation
+
+You can install the released version of AeroSampleR from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("AeroSampleR")
+```
+Or install the development version from GitHub:
+ 
+```{r eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("markhogue/AeroSampleR")
+```
+
+## Overview
+Air sampling systems are in use in nuclear facilities and other facilities that have a potential for hazardous airborne particles. Ambient air is drawn in at one end of a system through a probe, and directed through tubing components (e.g. straight lines, bends). 
+
+As the air sample progresses through the system, some particles deposit along the way on the inside of the tubing. How much is lost depends on a number of factors, such as particle size, system length, bend diameter, etc. 
+
+AeroSampleR relies on the concept of aerodynamic median activity diameter (AMAD), which accounts for particle density and shape, leaving equivalent spherical water droplets as the modeling targets. 
+
+Efficiency functions are based predominantly on testing with aerosol particles through stainless steel tubing. These models are only valid for clean systems. If a system is coated on the inside with years of material accumulation, or if the system is unprotected from environmental factors that could produce interior condensation, then there should be no expectation that the models will produce a realistic result.
+
+At this time, only relatively simple systems can be modeled with AeroSampleR. Components evaluated include:
+
+* a blunt probe in calm air
+* straight lengths of tubing
+* tubing bends (three bend modeling options are included)
+
+Not included:
+
+* more complicated sampling probes (as are typically used in stacks and ducts)
+* sample line splitters
+* changes in tube diameter - only one diameter is modeled for a whole system
+* the endpoint of the sample is assumed to be directed straight to an air sample filter or other detection system. Additional losses are likely inside any detection system that requires the air stream to travel circuitous routes. 
+
+The following is an example evaluation of a simple sampling system: 
+
+```{r echo = FALSE}
+library(AeroSampleR)
+```
+
+Initiate a table of data populated with particle diameters
+
+```{r echo = TRUE, warning = FALSE}
+df <- particle_dist() # no entries = default particle sizes
+```
+The mean is shown above. The mean is used to derive the particle distribution using the `stats::dlnorm` function. The mean has to first be derived for the lognormal particle distribution with the median and standard deviation that are used as arguments to the `particle_dist` function.
+
+
+Add the system parameters
+
+```{r echo = TRUE, warning = FALSE}
+params <- set_params_1("D_tube" = 2.54, # 1 inch diameter
+                       "Q_lpm" = 100, # ~3.53 cfm
+                       "T_C" = 25, # 77 F
+                       "P_kPa" = 101.325) # Atmospheric pressure at sea level
+```
+
+Add particle size dependent parameters
+
+```{r echo = TRUE, warning = FALSE}
+df <- set_params_2(df, params)
+```
+
+Start the system with a probe oriented upwards ("u")
+
+```{r echo = TRUE, warning = FALSE}
+df <- probe_eff(df, params, orient = "u")
+```
+
+Our system has a 90 degree bend after the probe. We're using the Zhang model
+
+```{r echo = TRUE, warning = FALSE}
+df <- bend_eff(df, 
+               params, 
+               method = "Zhang",
+               bend_angle = 45,
+               bend_radius = 0.1,
+               elnum = 2) #each element after the probe should be numbered
+
+```
+
+Next, our system has a straight line to the detector
+
+```{r echo = TRUE, warning = FALSE}
+df <- tube_eff(df, 
+               params, 
+               L = 1, # 1 meter
+               angle_to_horiz = 0,
+               elnum = 3)
+```
+
+That's the whole system. As we added elements, our table of data added columns. Let's look under the hood at the data frame (df) we made. We'll look at the end where the discrete values start.
+
+```{r echo = TRUE, warning = FALSE}
+print.data.frame(df[1001:1003, ], digits = 2, row.names = FALSE) #formatted to fit
+```
+
+Let's evaluate - discrete first
+
+```{r echo = TRUE, warning = FALSE}
+ report_basic(df, params, "discrete")
+```
+
+Plot
+
+```{r echo = TRUE, warning = FALSE}
+report_plots(df, "discrete")
+
+```
+
+Logarithmic report
+
+```{r echo = TRUE, warning = FALSE}
+report_basic(df, params, "log")
+```
+
+Plot
+
+```{r echo = TRUE, warning = FALSE}
+report_plots(df, "log")
+```
+
+A sample of the logarithmic data
+
+```{r echo = TRUE, warning = FALSE}
+df_log <- report_log_mass(df)[600:620, ]
+print.data.frame(df_log, digits = 3, row.names = FALSE)
+```

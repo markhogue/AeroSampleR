@@ -2,10 +2,7 @@
 % Please edit documentation in R/set_params_1.R
 \name{set_params_1}
 \alias{set_params_1}
-\title{Make a set of parameters that will be used throughout this package.
-`set_params_1` sets all single parameters.
-`set_params_2` adds particle-size-dependent parameters to the particle
-distribution}
+\title{Set parameters (not particle size specific)}
 \usage{
 set_params_1(D_tube_cm, Q_lpm, T_C = 20, P_kPa = 101.325)
 }
@@ -26,5 +23,11 @@ params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
 "T_C" = 25, "P_kPa" = 101.325)
 }
 \description{
+Make a set of parameters that will be used throughout this package.
+`set_params_1` sets all single parameters.
+`set_params_2` adds particle-size-dependent parameters to the
+particle distribution
+}
+\details{
 All parameters are to be in MKS units, except as noted.
 }

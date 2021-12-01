@@ -13,11 +13,11 @@ probe_eff(df, params, orient = "u", method = "blunt pipe")
 \item{params}{is the parameter data set for parameters that are not
 particle size-dependent}
 
-\item{orient}{orientation of the probe. Options are "u" for up,
-"d" for down, and "h" for horizontal}
+\item{orient}{orientation of the probe. Options are 'u' for up,
+'d' for down, and 'h' for horizontal}
 
 \item{method}{is the model for the probe efficiency. Default is
-"blunt pipe", based on Su WC and Vincent JH, Towards a general
+'blunt pipe', based on Su WC and Vincent JH, Towards a general
 semi-empirical model for the aspiration efficiencies of aerosol samplers
 in perfectly calm air, Aerosol Science 35 (2004) 1119-1134}
 }
@@ -32,6 +32,6 @@ the `set_params` function. Both of these results must be stored as
 per examples described in the help set with each.
 }
 \examples{
-\dontrun{df <- probe_eff(df, params, orient = "u")}
+\dontrun{df <- probe_eff(df, params, orient = 'u')}
 
 }

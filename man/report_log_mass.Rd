@@ -4,30 +4,17 @@
 \alias{report_log_mass}
 \title{report relative masses by particle of a log-normal distribution}
 \usage{
-report_log_mass(df, params, dist)
+report_log_mass(df)
 }
 \arguments{
 \item{df}{is the particle data set - after transport analysis by element}
-
-\item{params}{is the parameter data set for parameters that are not
-particle size-dependent}
-
-\item{dist}{selects the distribution for the report. Options are
-"discrete" for discrete particle sizes or "log" for the log-normal
-distribution of particles that were started with the `particle_dist`
-function.}
 }
 \value{
 data frame containing mass-based particle fractions in ambient
 location and in distribution delivered throught the system.
 }
 \description{
-In order to run a report, first produce a model of each individual
-element. Start with producing a particle distribution
-with the `particle_dist` function, then produce a parameter set with
-the `set_params` function. Both of these results must be stored as
-per examples described in the help set with each. Next, add elements
-in the sample system until all are complete.
+This function shows the entire table of results by particle diameter.
 }
 \examples{
 \dontrun{log_mass_results <- report_log_mass(df)}
