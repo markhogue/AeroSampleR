@@ -34,55 +34,50 @@
 #' data for this element
 #'
 #' @examples
-#' \dontrun{df <- bend_eff(df, params, method="Zhang", bend_angle=90,
+#' \dontrun{df <- bend_eff(df, params, method='Zhang', bend_angle=90,
 #' bend_radius=0.1, elnum=3)}
 #' @export
 #'
 bend_eff <- function(df, params, method, bend_angle, bend_radius, elnum) {
- # cat("This function appends a new eff_bend.. column to the data frame")
- #  cat("\n")
+    # cat('This function appends a new eff_bend.. column to the data
+    # frame') cat('\n')
 
-  angle_rad <- bend_angle * pi/180
-  rat_curv <- bend_radius / (params$D_tube / 2)
+    angle_rad <- bend_angle * pi/180
+    rat_curv <- bend_radius/(params$D_tube/2)
 
-    if(method == "Pui") {
-      ifelse(params$Re < 6000,
-      eff_bend <- (1 + (df$Stk / 0.171) ^
-                    (0.452 * df$Stk / 0.171 +2.242))^
-                    -(2 * angle_rad / pi),
-      eff_bend <- exp(-2.823 * df$Stk * angle_rad)
-      )
+    if (method == "Pui") {
+        ifelse(params$Re < 6000, eff_bend <- (1 + (df$Stk/0.171)^(0.452 *
+            df$Stk/0.171 + 2.242))^-(2 * angle_rad/pi), eff_bend <- exp(-2.823 *
+            df$Stk * angle_rad))
     }
-    if(method == "Zhang") {
-      eff_bend <- exp(-0.528 *
-                             angle_rad *
-                             df$Stk ^ ( (2) ^ (1 / rat_curv)) *
-                             rat_curv^0.5)
+    if (method == "Zhang") {
+        eff_bend <- exp(-0.528 * angle_rad * df$Stk^((2)^(1/rat_curv)) *
+            rat_curv^0.5)
     }
-    if(method == "McFarland") {
+    if (method == "McFarland") {
 
-      a <- -0.9526 - 0.05686 * rat_curv
-      b <- (-0.297 - 0.0174 * rat_curv) /
-        (1 - 0.07 * rat_curv + 0.0171 * rat_curv^2)
-      c <- -0.306 + 1.895 / rat_curv^0.5 - 2 / rat_curv
-      d <- (0.131 - 0.0132 * rat_curv + 0.000383 * rat_curv^2) /
-        (1 - 0.129 * rat_curv + 0.0136 * rat_curv^2)
+        a <- -0.9526 - 0.05686 * rat_curv
+        b <- (-0.297 - 0.0174 * rat_curv)/(1 - 0.07 * rat_curv + 0.0171 *
+            rat_curv^2)
+        c <- -0.306 + 1.895/rat_curv^0.5 - 2/rat_curv
+        d <- (0.131 - 0.0132 * rat_curv + 0.000383 * rat_curv^2)/(1 - 0.129 *
+            rat_curv + 0.0136 * rat_curv^2)
 
-      eff_bend <- 0.01 * exp((4.61 + a * angle_rad * df$Stk) /
-                                (1 +
-                                b * angle_rad * df$Stk +
-                                c * angle_rad * df$Stk^2 +
-                                d * angle_rad^2 * df$Stk))
-      # this is necessary to remove very high results when
-      # denominator of the function above approaches zero
-      if(df$Stk < 2.065 && df$Stk >2.05) eff_bend <- 0
-      # More removal of out-of-range results
-      if(eff_bend >= 1 && df$Stk > 1) eff_bend <- 0
+        eff_bend <- 0.01 * exp((4.61 + a * angle_rad * df$Stk)/(1 + b *
+            angle_rad * df$Stk + c * angle_rad * df$Stk^2 + d * angle_rad^2 *
+            df$Stk))
+        # this is necessary to remove very high results when
+        # denominator of the function above approaches zero
+        if (df$Stk < 2.065 && df$Stk > 2.05)
+            eff_bend <- 0
+        # More removal of out-of-range results
+        if (eff_bend >= 1 && df$Stk > 1)
+            eff_bend <- 0
     }
 
     eff_bend[eff_bend > 1] <- 1
     df <- cbind(df, eff_bend)
     names(df)[length(df)] <- paste0("eff_bend_", as.character(elnum))
     df
-  }
+}
 

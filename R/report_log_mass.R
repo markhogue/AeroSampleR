@@ -11,7 +11,7 @@
 #' @param params is the parameter data set for parameters that are not
 #' particle size-dependent
 #' @param dist selects the distribution for the report. Options are
-#' "discrete" for discrete particle sizes or "log" for the log-normal
+#' 'discrete' for discrete particle sizes or 'log' for the log-normal
 #' distribution of particles that were started with the `particle_dist`
 #' function.
 #'
@@ -25,21 +25,21 @@
 #'
 report_log_mass <- function(df, params, dist) {
 
-  D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = sampled_mass = bin_frac_lost = total_frac_lost = NULL
+    D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = sampled_mass = bin_frac_lost = total_frac_lost = NULL
 
-      # mass weighted
+    # mass weighted
     df %>%
-      dplyr::filter(dist == "log_norm") %>%
-      dplyr::mutate(bin_eff = purrr::pmap_dbl(
-        dplyr::select(., starts_with('eff_')), prod)) %>%
-      dplyr::mutate(amb_mass = probs * 4/3 * pi * (D_p / 2)^3) %>%
-      dplyr::mutate(sampled_mass = amb_mass * bin_eff) %>%
-      dplyr::mutate(microns = D_p) %>%
-      dplyr::select(microns, probs, amb_mass, bin_eff, sampled_mass) %>%
-      dplyr::mutate(bin_frac_lost = (amb_mass - sampled_mass) / amb_mass) %>%
-      dplyr::mutate(total_frac_lost = (amb_mass - sampled_mass) / sum(amb_mass)) %>%
-      dplyr::select(microns, probs, bin_eff, amb_mass, sampled_mass,
-                    bin_frac_lost, total_frac_lost)
+        dplyr::filter(dist == "log_norm") %>%
+        dplyr::mutate(bin_eff = purrr::pmap_dbl(dplyr::select(., starts_with("eff_")),
+            prod)) %>%
+        dplyr::mutate(amb_mass = probs * 4/3 * pi * (D_p/2)^3) %>%
+        dplyr::mutate(sampled_mass = amb_mass * bin_eff) %>%
+        dplyr::mutate(microns = D_p) %>%
+        dplyr::select(microns, probs, amb_mass, bin_eff, sampled_mass) %>%
+        dplyr::mutate(bin_frac_lost = (amb_mass - sampled_mass)/amb_mass) %>%
+        dplyr::mutate(total_frac_lost = (amb_mass - sampled_mass)/sum(amb_mass)) %>%
+        dplyr::select(microns, probs, bin_eff, amb_mass, sampled_mass, bin_frac_lost,
+            total_frac_lost)
 
-  }
+}
 
