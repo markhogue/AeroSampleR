@@ -8,7 +8,7 @@
 #' \dontrun{log_mass_results <- report_log_mass(df)}
 #'
 #' @returns data frame containing mass-based particle fractions in ambient
-#' location and in distribution delivered throught the system.
+#' location and in distribution delivered through the system.
 #'
 #' @export
 #'

@@ -17,7 +17,7 @@ particle size-dependent}
 
 \item{angle_to_horiz}{angle to horizontal in degrees}
 
-\item{elnum}{element number to provide uniqe column names}
+\item{elnum}{element number to provide unique column names}
 }
 \value{
 data frame containing original particle distribution with added

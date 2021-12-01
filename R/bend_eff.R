@@ -12,7 +12,7 @@
 #' @param bend_angle bend angle in degrees
 #' @param bend_radius bend radius in m
 #' @param method choice of models: Pui, McFarland, or Zhang
-#' @param elnum element number to provide uniqe column names
+#' @param elnum element number to provide unique column names
 #'
 #' @references
 #' A. R. McFarland, H. Gong, A. Muyshondt, W. B. Wente, and N. K. Anand

@@ -19,7 +19,7 @@ particle size-dependent}
 
 \item{bend_radius}{bend radius in m}
 
-\item{elnum}{element number to provide uniqe column names}
+\item{elnum}{element number to provide unique column names}
 }
 \value{
 data frame containing original particle distribution with added

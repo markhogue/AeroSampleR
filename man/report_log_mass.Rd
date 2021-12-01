@@ -11,7 +11,7 @@ report_log_mass(df)
 }
 \value{
 data frame containing mass-based particle fractions in ambient
-location and in distribution delivered throught the system.
+location and in distribution delivered through the system.
 }
 \description{
 This function shows the entire table of results by particle diameter.

@@ -5,7 +5,7 @@
 #'
 #' No user-selected arguments are needed. Parameters are used in
 #' efficiency functions. For each particle diameter, an entry is
-#' made in the data frame for the Cunninham slip correction factor,
+#' made in the data frame for the Cunningham slip correction factor,
 #' the particle terminal velocity, the particle Reynold's number,
 #' and the Stokes factor.
 #'

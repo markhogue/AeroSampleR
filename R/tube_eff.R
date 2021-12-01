@@ -11,7 +11,7 @@
 #' particle size-dependent
 #' @param L tube length, m
 #' @param angle_to_horiz angle to horizontal in degrees
-#' @param elnum element number to provide uniqe column names
+#' @param elnum element number to provide unique column names
 #'
 #' @returns data frame containing original particle distribution with added
 #' data for this element
