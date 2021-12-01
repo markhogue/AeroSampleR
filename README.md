@@ -8,7 +8,8 @@ downloads](https://cranlogs.r-pkg.org/badges/last-month/AeroSampleR?color=blue)]
 [![Build
 Status](https://travis-ci.org/markhogue/AeroSampleR.svg?branch=master)](https://travis-ci.org/markhogue/AeroSampleR)
 
-The AeroSampleR package provides aerosol .
+AeroSampleR is an R package to help estimate the fraction of aerosol
+particles that make their way through an air sampling system.
 
 ## Installation
 
