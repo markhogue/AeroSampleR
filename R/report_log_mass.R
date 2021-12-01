@@ -1,15 +1,8 @@
 #' report relative masses by particle of a log-normal distribution
 #'
-#' In order to run a report, first produce a model of each individual
-#' element. Start with producing a particle distribution
-#' with the `particle_dist` function, then produce a parameter set with
-#' the `set_params` function. Both of these results must be stored as
-#' per examples described in the help set with each. Next, add elements
-#' in the sample system until all are complete.
+#' This function shows the entire table of results by particle diameter.
 #'
 #' @param df is the particle data set - after transport analysis by element
-#' @param params is the parameter data set for parameters that are not
-#' particle size-dependent
 #'
 #' @examples
 #' \dontrun{log_mass_results <- report_log_mass(df)}
@@ -19,7 +12,7 @@
 #'
 #' @export
 #'
-report_log_mass <- function(df, params) {
+report_log_mass <- function(df) {
 
     D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = sampled_mass = bin_frac_lost = total_frac_lost = NULL
 
