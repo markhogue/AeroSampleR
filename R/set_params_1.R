@@ -1,7 +1,9 @@
+#' Set parameters (not particle size specific)
+#'
 #' Make a set of parameters that will be used throughout this package.
 #' `set_params_1` sets all single parameters.
-#' `set_params_2` adds particle-size-dependent parameters to the particle
-#' distribution
+#' `set_params_2` adds particle-size-dependent parameters to the
+#' particle distribution
 #'
 #' All parameters are to be in MKS units, except as noted.
 #'

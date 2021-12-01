@@ -1,11 +1,17 @@
-#' Make a set of parameters that will be used throughout this package.
-#' Carry these parameters forward in the data set with the particle
-#' distribution.
-#' `set_params_1` sets all single parameters.
-#' `set_params_2` adds particle size-dependent parameters to the particle
-#' distribution
+#' Make a set of particle-size-dependent parameters
 #'
-#' All parameters are to be in MKS units, except as noted.
+#' This set of parameters will be used for evaluation of transport
+#' efficiency for particle-size-dependent parameters.
+#'
+#' No user-selected arguments are needed. Parameters are used in
+#' efficiency functions. For each particle diameter, an entry is
+#' made in the data frame for the Cunninham slip correction factor,
+#' the particle terminal velocity, the particle Reynold's number,
+#' and the Stokes factor.
+#'
+#' `set_params_1` sets all single parameters.
+#' `set_params_2` adds particle size-dependent parameters to the
+#' particle distribution
 #'
 #' @param df is the particle data set (data frame) established with the
 #' `particle_dist` function
@@ -15,13 +21,14 @@
 #' @examples
 #' \dontrun{df <- set_params_2(df, params)}
 #'
-#' @return a data frame starting with the submitted particle distribution
-#'  with additional columns for particle-size-dependent parameters
+#' @return a data frame starting with the submitted particle
+#' distribution with additional columns for particle-size-dependent
+#' parameters
 #'
 #' @export
 #'
 set_params_2 <- function(df, params) {
-
+  # Author notes for documentation in Q-CLC-G-00128
   # Depo_Calc Eq 6: Cunningham Correction Factor
   # Depo Calc Eq 33: terminal settling velocity
   # Depo Calc Eq 32: Particle Reynolds number (tube)

@@ -1,11 +1,10 @@
-#' Make the data frame that will be used throughout this package,
-#' first to make the ambient distribution of particles, then to
-#' track efficiency of transport of this data set throughout the
-#' sampling system.
+#' Create a particle distribution
 #'
-#' Use this function to create a data set to use in transport efficiency
-#' functions going forward. To create your data, save this data to the
-#' global environment as shown in the examples
+#' Needed as a first step in estimating system efficiency.
+#' Make the data frame that will be used to estimate efficiency of
+#' variously sized aerosol particles' transport through the sampling
+#' system. To create your data, save this data to the global
+#' environment as shown in the examples.
 #'
 #' All inputs are in micron AMAD, meaning:
 #'      the aerodynamic diameter of a particle is the diameter of a
@@ -31,8 +30,9 @@ particle_dist <- function(AMAD = 5,
                           log_norm_sd = 2.5,
                           log_norm_min = 5e-4,
                           log_norm_max = 100,
-                          discrete_vals = c(1, 5, 10)) {n <- 1000 # number of bins for log (could make this a parameter)
-                          log_int <- (log(log_norm_max) - log(log_norm_min)) / (n - 1)
+                          discrete_vals = c(1, 5, 10)) {
+  n <- 1000 # number of bins for log (could make this a parameter)
+  log_int <- (log(log_norm_max) - log(log_norm_min)) / (n - 1)
 
   # log_int sets up micron sizes.
   particle_bins <- log_norm_min * exp(0:(n - 1) * log_int)
@@ -41,8 +41,10 @@ particle_dist <- function(AMAD = 5,
                     log(AMAD), # to start - replace with m
                     log(log_norm_sd))
 
-  dist1 <- data.frame("D_p" = particle_bins, "probs" = particle_probs)
+  dist1 <- data.frame("D_p" = particle_bins,
+                      "probs" = particle_probs)
 
+  # activity is proportional to the cube of the radius
   dist1$rel_act <- (dist1$D_p / 2)^3 * dist1$probs
 
   close_minus <- function(m) {
@@ -82,8 +84,8 @@ particle_dist <- function(AMAD = 5,
   df <- data.frame("D_p" = particle_bins, "probs" = particle_probs)
   df$dist <- "log_norm"
   df <- rbind(df,
-              data.frame("D_p" =  discrete_vals,
-                         "probs" = rep(1, length(discrete_vals)),
-                         "dist" =  rep("discrete", length(discrete_vals))))
+      data.frame("D_p" =  discrete_vals,
+                 "probs" = rep(1, length(discrete_vals)),
+                 "dist" =  rep("discrete", length(discrete_vals))))
   df
   }
