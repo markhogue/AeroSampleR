@@ -14,7 +14,7 @@
 #'
 report_log_mass <- function(df) {
 
-    D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = sampled_mass = bin_frac_lost = total_frac_lost = NULL
+    D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = sampled_mass = bin_frac_lost = total_frac_lost = dist = NULL
 
     # mass weighted
     df %>%
