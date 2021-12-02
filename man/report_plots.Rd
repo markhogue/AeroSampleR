@@ -25,3 +25,7 @@ the `set_params` function. Both of these results must be stored as
 per examples described in the help set with each. Next, add elements
 in the sample system until all are complete.
 }
+\examples{
+report_plots(dat_for_plots, dist = 'discrete')
+
+}

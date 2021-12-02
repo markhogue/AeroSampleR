@@ -16,7 +16,7 @@
 #' @return A plot of transport efficiencies is generated in a plot window
 #'
 #' @examples
-#' @donttest{report_plots(dat_for_plots, dist = 'discrete')}
+#' report_plots(dat_for_plots, dist = 'discrete')
 #'
 #' @export
 #'
