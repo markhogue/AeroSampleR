@@ -1,5 +1,5 @@
 ## Revision purpose
-This is the first issuance of AeroSampleR.
+This is the first issuance of AeroSampleR. v0.1.12 updates per CRAN comments - provided \action for plots and running examples
 
 ## Test environments
 * local Windows 10 home version R 4.1.2
