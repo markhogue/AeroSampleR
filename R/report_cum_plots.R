@@ -16,7 +16,7 @@
 #' @return A plot of cumulative transport efficiencies is generated in a plot window
 #'
 #' @examples
-#' \donttest{report_cum_plots(dat_for_plots, micron = 10)}
+#' @donttest{report_cum_plots(dat_for_plots, micron = 10)}
 #'
 #' @export
 #'
