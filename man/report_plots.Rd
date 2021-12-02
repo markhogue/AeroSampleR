@@ -26,6 +26,15 @@ per examples described in the help set with each. Next, add elements
 in the sample system until all are complete.
 }
 \examples{
-\dontrun{report_eff(df, params, dist = 'discrete')}
+df <- particle_dist(n=10) # toy set for demo - set up particle distribution
+params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
+"T_C" = 25, "P_kPa" = 101.325) #example system parameters
+df <- set_params_2(df, params) #particle size-dependent parameters
+df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
+df <- bend_eff(df, params, method='Zhang', bend_angle=90,
+bend_radius=0.1, elnum=3)
+df <- tube_eff(df, params, L = 100,
+angle_to_horiz = 90, elnum = 3)
+report_eff(df, params, dist = 'discrete')
 
 }

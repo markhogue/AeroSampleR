@@ -44,9 +44,10 @@ All inputs are in micron AMAD, meaning:
      gravitational settling velocity as the particle in question.
 }
 \examples{
-df <- particle_dist() # defaults
+df <- particle_dist(n=10) # default except only 10 log bins
 df <- particle_dist(AMAD = 4.4,
-                    log_norm_sd = 1.8)
+                    log_norm_sd = 1.8,
+                    n = 10)
 head(df)
 
 }

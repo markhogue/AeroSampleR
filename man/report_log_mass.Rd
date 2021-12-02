@@ -17,7 +17,7 @@ location and in distribution delivered through the system.
 This function shows the entire table of results by particle diameter.
 }
 \examples{
-df <- particle_dist(n=100) # small set for demo - set up particle distribution
+df <- particle_dist(n=10) # toy set for demo - set up particle distribution
 params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
 "T_C" = 25, "P_kPa" = 101.325) #example system parameters
 df <- set_params_2(df, params) #particle size-dependent parameters
