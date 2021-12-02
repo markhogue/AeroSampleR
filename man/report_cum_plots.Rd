@@ -26,6 +26,6 @@ per examples described in the help set with each. Next, add elements
 in the sample system until all are complete.
 }
 \examples{
-report_cum_plots(dat_for_plots, micron = 10)
+\donttest{report_cum_plots(dat_for_plots, micron = 10)}
 
 }
