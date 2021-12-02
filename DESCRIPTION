@@ -11,7 +11,7 @@ Description: Estimate ideal efficiencies of aerosol sampling through sample
     Systems" Health Phys 106, 5, S78-S87, <doi:10.1097/HP.0000000000000092>.
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 Imports: dplyr,
      purrr,
      magrittr,
