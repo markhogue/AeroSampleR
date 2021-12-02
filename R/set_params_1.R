@@ -18,7 +18,7 @@
 #' examples
 #' params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
 #' "T_C" = 25, "P_kPa" = 101.325)
-#'
+#' t(params)
 #'
 #' @export
 set_params_1 <- function(D_tube_cm,

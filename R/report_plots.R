@@ -13,6 +13,8 @@
 #' distribution of particles that were started with the `particle_dist`
 #' function.
 #'
+#' @return A plot of transport efficiencies is generated in a plot window
+#'
 #' @examples
 #' \dontrun{report_eff(df, params, dist = 'discrete')}
 #'

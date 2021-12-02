@@ -1,7 +1,7 @@
 Package: AeroSampleR
 Type: Package
 Title: Estimate Aerosol Particle Collection Through Sample Lines
-Version: 0.1.11
+Version: 0.1.12
 Author: Mark Hogue
 Maintainer: Mark Hogue <mark.hogue@srs.gov>
 Description: Estimate ideal efficiencies of aerosol sampling through sample

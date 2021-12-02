@@ -14,6 +14,9 @@ report_plots(df, dist)
 distribution of particles that were started with the `particle_dist`
 function.}
 }
+\value{
+A plot of transport efficiencies is generated in a plot window
+}
 \description{
 In order to run a report, first produce a model of each individual
 element. Start with producing a particle distribution

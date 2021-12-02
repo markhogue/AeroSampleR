@@ -13,8 +13,19 @@
 #' distribution of particles that were started with the `particle_dist`
 #' function.
 #'
+#' @return A plot of cumulative transport efficiencies is generated in a plot window
+#'
 #' @examples
-#' \dontrun{report_eff(df, params, micron = 10)}
+#' df <- particle_dist(n=100) # small set for demo - set up particle distribution
+#' params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
+#' "T_C" = 25, "P_kPa" = 101.325) #example system parameters
+#' df <- set_params_2(df, params) #particle size-dependent parameters
+#' df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
+#' df <- bend_eff(df, params, method='Zhang', bend_angle=90,
+#' bend_radius=0.1, elnum=3)
+#' df <- tube_eff(df, params, L = 100,
+#' angle_to_horiz = 90, elnum = 3)
+#' report_cum_plots(df, micron = 10)
 #'
 #' @export
 #'

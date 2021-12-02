@@ -20,8 +20,12 @@
 #' data for this element
 #'
 #' @examples
-#' \dontrun{df <- probe_eff(df, params, orient = 'u')}
-#'
+#' df <- particle_dist(n=100) # small set for demo - set up particle distribution
+#' params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
+#' "T_C" = 25, "P_kPa" = 101.325) #example system parameters
+#' df <- set_params_2(df, params) #particle size-dependent parameters
+#' df <- probe_eff(df, params, orient = 'u') #probe orientation - draws upward
+#' head(df)
 #' @export
 #'
 probe_eff <- function(df, params, orient = "u", method = "blunt pipe") {

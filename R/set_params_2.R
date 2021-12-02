@@ -19,7 +19,11 @@
 #' particle size-dependent
 #'
 #' @examples
-#' \dontrun{df <- set_params_2(df, params)}
+#' df <- particle_dist(n=100) # small set for demo
+#' params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
+#' "T_C" = 25, "P_kPa" = 101.325)
+#' df <- set_params_2(df, params)
+#' head(df)
 #'
 #' @return a data frame starting with the submitted particle
 #' distribution with additional columns for particle-size-dependent

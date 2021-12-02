@@ -32,8 +32,14 @@ the `set_params` function. Both of these results must be stored as
 per examples described in the help set with each.
 }
 \examples{
-\dontrun{df <- bend_eff(df, params, method='Zhang', bend_angle=90,
-bend_radius=0.1, elnum=3)}
+df <- particle_dist(n=100) # small set for demo - set up particle distribution
+params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
+"T_C" = 25, "P_kPa" = 101.325) #example system parameters
+df <- set_params_2(df, params) #particle size-dependent parameters
+df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
+df <- bend_eff(df, params, method='Zhang', bend_angle=90,
+bend_radius=0.1, elnum=3)
+head(df)
 }
 \references{
 A. R. McFarland, H. Gong, A. Muyshondt, W. B. Wente, and N. K. Anand
