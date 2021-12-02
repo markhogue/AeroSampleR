@@ -18,9 +18,10 @@
 #' @param n default is 1000, number of bins for log distribution
 #'
 #' @examples
-#' df <- particle_dist() # defaults
+#' df <- particle_dist(n=10) # default except only 10 log bins
 #' df <- particle_dist(AMAD = 4.4,
-#'                     log_norm_sd = 1.8)
+#'                     log_norm_sd = 1.8,
+#'                     n = 10)
 #' head(df)
 #'
 #' @return a data frame containing a lognormally distributed set of
