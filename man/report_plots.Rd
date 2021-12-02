@@ -35,6 +35,6 @@ df <- bend_eff(df, params, method='Zhang', bend_angle=90,
 bend_radius=0.1, elnum=3)
 df <- tube_eff(df, params, L = 100,
 angle_to_horiz = 90, elnum = 3)
-report_eff(df, params, dist = 'discrete')
+report_plots(df, params, dist = 'discrete')
 
 }
