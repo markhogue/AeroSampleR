@@ -15,13 +15,11 @@
 #' @param log_norm_min default is 0.0005 based on ICRP 66
 #' @param log_norm_max default is 100 based on ICRP 66
 #' @param discrete_vals default is c(1, 5, 10)
-#' @param n default is 1000, number of bins for log distribution
 #'
 #' @examples
-#' df <- particle_dist(n=10) # default except only 10 log bins
+#' df <- particle_dist() # default
 #' df <- particle_dist(AMAD = 4.4,
-#'                     log_norm_sd = 1.8,
-#'                     n = 10)
+#'                     log_norm_sd = 1.8)
 #' head(df)
 #'
 #' @return a data frame containing a lognormally distributed set of
@@ -33,8 +31,7 @@ particle_dist <- function(AMAD = 5,
                           log_norm_sd = 2.5,
                           log_norm_min = 5e-4,
                           log_norm_max = 100,
-                          discrete_vals = c(1, 5, 10),
-                          n = 1000) {
+                          discrete_vals = c(1, 5, 10)) {
     log_int <- (log(log_norm_max) - log(log_norm_min)) / (n - 1)
 
   # log_int sets up micron sizes.

@@ -9,8 +9,7 @@ particle_dist(
   log_norm_sd = 2.5,
   log_norm_min = 5e-04,
   log_norm_max = 100,
-  discrete_vals = c(1, 5, 10),
-  n = 1000
+  discrete_vals = c(1, 5, 10)
 )
 }
 \arguments{
@@ -23,8 +22,6 @@ particle_dist(
 \item{log_norm_max}{default is 100 based on ICRP 66}
 
 \item{discrete_vals}{default is c(1, 5, 10)}
-
-\item{n}{default is 1000, number of bins for log distribution}
 }
 \value{
 a data frame containing a lognormally distributed set of
@@ -44,10 +41,9 @@ All inputs are in micron AMAD, meaning:
      gravitational settling velocity as the particle in question.
 }
 \examples{
-df <- particle_dist(n=10) # default except only 10 log bins
+df <- particle_dist() # default
 df <- particle_dist(AMAD = 4.4,
-                    log_norm_sd = 1.8,
-                    n = 10)
+                    log_norm_sd = 1.8)
 head(df)
 
 }
