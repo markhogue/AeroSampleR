@@ -32,6 +32,7 @@ particle_dist <- function(AMAD = 5,
                           log_norm_min = 5e-4,
                           log_norm_max = 100,
                           discrete_vals = c(1, 5, 10)) {
+  n <- 1000 # number of bins - have to be high to meet del target
     log_int <- (log(log_norm_max) - log(log_norm_min)) / (n - 1)
 
   # log_int sets up micron sizes.
