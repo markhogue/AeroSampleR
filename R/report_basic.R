@@ -57,26 +57,37 @@ report_basic <- function(df, params, dist) {
     cat("\n")
 
     if (dist == "discrete") {
-        discrete_report <- df |>
-            dplyr::mutate(sys_eff = purrr::pmap_dbl(dplyr::select(., tidyselect::starts_with("eff_")),
-                prod)) |>
-            dplyr::filter(dist == "discrete") |>
-            dplyr::mutate(microns = D_p) |>
-            dplyr::select(microns, sys_eff)
+# make data frame with just the discrete data
+            df_disc <- df |>
+        dplyr::filter(dist == "discrete")
+# compute system efficiency and add this column
+      df_disc$sys_eff <-
+        purrr::pmap_dbl(dplyr::select(df_disc, tidyselect::starts_with("eff_")), prod)
 
-        return(discrete_report)
+# select columns for the report
+      discrete_report <- df_disc |> dplyr::select(D_p, sys_eff)
+      return(discrete_report)
     }
 
     if (dist == "log") {
-        df |>
-            dplyr::filter(dist == "log_norm") |>
-            dplyr::mutate(bin_eff = purrr::pmap_dbl(dplyr::select(., starts_with("eff_")),
-                prod)) |>
-            dplyr::mutate(ambient = probs * 4/3 * pi * (D_p/2)^3) |>
-            dplyr::mutate(sampled = ambient * bin_eff) |>
-            dplyr::mutate(microns = D_p) |>
-            dplyr::select(microns, probs, ambient, bin_eff, sampled) |>
-            dplyr::summarize(eff_mass_weighted = sum(sampled)/sum(ambient))
+# make data frame of just the log data
+            df_log <- df |>
+        dplyr::filter(dist == "log_norm")
+
+# compute efficiency for each particle size (bin) and add this column
+
+df_log$bin_eff <-
+              purrr::pmap_dbl(dplyr::select(df_log,
+              tidyselect::starts_with("eff_")), prod)
+# compute ambient mass-based quantity for each bin
+
+df_log$ambient <- df_log$probs * 4/3 *
+                   pi * (df_log$D_p/2)^3
+
+df_log$sampled <- df_log$ambient * df_log$bin_eff
+
+data.frame("eff_mass_weighted" = sum(df_log$sampled)/
+             sum(df_log$ambient))
     }
 }
 
