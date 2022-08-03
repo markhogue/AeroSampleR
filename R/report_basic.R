@@ -57,25 +57,25 @@ report_basic <- function(df, params, dist) {
     cat("\n")
 
     if (dist == "discrete") {
-        discrete_report <- df %>%
+        discrete_report <- df |>
             dplyr::mutate(sys_eff = purrr::pmap_dbl(dplyr::select(., tidyselect::starts_with("eff_")),
-                prod)) %>%
-            dplyr::filter(dist == "discrete") %>%
-            dplyr::mutate(microns = D_p) %>%
+                prod)) |>
+            dplyr::filter(dist == "discrete") |>
+            dplyr::mutate(microns = D_p) |>
             dplyr::select(microns, sys_eff)
 
         return(discrete_report)
     }
 
     if (dist == "log") {
-        df %>%
-            dplyr::filter(dist == "log_norm") %>%
+        df |>
+            dplyr::filter(dist == "log_norm") |>
             dplyr::mutate(bin_eff = purrr::pmap_dbl(dplyr::select(., starts_with("eff_")),
-                prod)) %>%
-            dplyr::mutate(ambient = probs * 4/3 * pi * (D_p/2)^3) %>%
-            dplyr::mutate(sampled = ambient * bin_eff) %>%
-            dplyr::mutate(microns = D_p) %>%
-            dplyr::select(microns, probs, ambient, bin_eff, sampled) %>%
+                prod)) |>
+            dplyr::mutate(ambient = probs * 4/3 * pi * (D_p/2)^3) |>
+            dplyr::mutate(sampled = ambient * bin_eff) |>
+            dplyr::mutate(microns = D_p) |>
+            dplyr::select(microns, probs, ambient, bin_eff, sampled) |>
             dplyr::summarize(eff_mass_weighted = sum(sampled)/sum(ambient))
     }
 }

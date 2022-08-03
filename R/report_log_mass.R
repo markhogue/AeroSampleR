@@ -26,16 +26,16 @@ report_log_mass <- function(df) {
     D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = sampled_mass = bin_frac_lost = total_frac_lost = dist = NULL
 
     # mass weighted
-    df %>%
-        dplyr::filter(dist == "log_norm") %>%
+    df |>
+        dplyr::filter(dist == "log_norm") |>
         dplyr::mutate(bin_eff = purrr::pmap_dbl(dplyr::select(., starts_with("eff_")),
-            prod)) %>%
-        dplyr::mutate(amb_mass = probs * 4/3 * pi * (D_p/2)^3) %>%
-        dplyr::mutate(sampled_mass = amb_mass * bin_eff) %>%
-        dplyr::mutate(microns = D_p) %>%
-        dplyr::select(microns, probs, amb_mass, bin_eff, sampled_mass) %>%
-        dplyr::mutate(bin_frac_lost = (amb_mass - sampled_mass)/amb_mass) %>%
-        dplyr::mutate(total_frac_lost = (amb_mass - sampled_mass)/sum(amb_mass)) %>%
+            prod)) |>
+        dplyr::mutate(amb_mass = probs * 4/3 * pi * (D_p/2)^3) |>
+        dplyr::mutate(sampled_mass = amb_mass * bin_eff) |>
+        dplyr::mutate(microns = D_p) |>
+        dplyr::select(microns, probs, amb_mass, bin_eff, sampled_mass) |>
+        dplyr::mutate(bin_frac_lost = (amb_mass - sampled_mass)/amb_mass) |>
+        dplyr::mutate(total_frac_lost = (amb_mass - sampled_mass)/sum(amb_mass)) |>
         dplyr::select(microns, probs, bin_eff, amb_mass, sampled_mass, bin_frac_lost,
             total_frac_lost)
 

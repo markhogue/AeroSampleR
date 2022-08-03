@@ -24,9 +24,9 @@ report_plots <- function(df, dist) {
     D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = rel_activity = location = NULL
     if (dist == "discrete") {
         # plot by element, by particle size
-        df_long <- df %>%
-            dplyr::filter(dist == "discrete") %>%
-            dplyr::select(., c(D_p, tidyselect::starts_with("eff_"))) %>%
+        df_long <- df |>
+            dplyr::filter(dist == "discrete") |>
+            dplyr::select(., c(D_p, tidyselect::starts_with("eff_"))) |>
             tidyr::pivot_longer(cols = tidyselect::starts_with("eff_"),
                 names_to = "element", values_to = "efficiency")
 
@@ -45,15 +45,15 @@ report_plots <- function(df, dist) {
 
     if (dist == "log") {
         # mass weighted plot
-        df %>%
-            dplyr::filter(dist == "log_norm") %>%
+        df |>
+            dplyr::filter(dist == "log_norm") |>
             dplyr::mutate(bin_eff = purrr::pmap_dbl(dplyr::select(., tidyselect::starts_with("eff_")),
-                prod)) %>%
-            dplyr::mutate(ambient = probs * 4/3 * pi * (D_p/2)^3) %>%
-            dplyr::mutate(sampled = ambient * bin_eff) %>%
-            dplyr::mutate(microns = D_p) %>%
-            dplyr::select(microns, ambient, sampled) %>%
-            tidyr::pivot_longer(2:3, names_to = "location", values_to = "rel_activity") %>%
+                prod)) |>
+            dplyr::mutate(ambient = probs * 4/3 * pi * (D_p/2)^3) |>
+            dplyr::mutate(sampled = ambient * bin_eff) |>
+            dplyr::mutate(microns = D_p) |>
+            dplyr::select(microns, ambient, sampled) |>
+            tidyr::pivot_longer(2:3, names_to = "location", values_to = "rel_activity") |>
             ggplot2::ggplot(ggplot2::aes(microns, rel_activity, color = location)) +
             ggplot2::geom_point() + ggplot2::ggtitle("ambient and sampled activity")
     }

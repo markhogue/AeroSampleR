@@ -25,14 +25,14 @@ report_cum_plots <- function(df, micron) {
     D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = NULL
 
     # make a cumulative efficiency set
-    df_effs <- df %>%
-        dplyr::filter(D_p == micron) %>%
+    df_effs <- df |>
+        dplyr::filter(D_p == micron) |>
         dplyr::select(., tidyselect::starts_with("eff_"))
     df_effs[1, ] <- cumprod(as.numeric(df_effs))
     names(df_effs) <- stringr::str_replace(names(df_effs), "eff_", "")
 
     # plot by element, by particle size
-    df_effs <- df_effs %>%
+    df_effs <- df_effs |>
         tidyr::pivot_longer(cols = everything(), names_to = "element", values_to = "efficiency")
 
 

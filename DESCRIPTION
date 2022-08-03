@@ -1,7 +1,7 @@
 Package: AeroSampleR
 Type: Package
 Title: Estimate Aerosol Particle Collection Through Sample Lines
-Version: 0.1.12
+Version: 0.1.13
 Author: Mark Hogue
 Maintainer: Mark Hogue <mark.hogue@srs.gov>
 Description: Estimate ideal efficiencies of aerosol sampling through sample
@@ -14,7 +14,6 @@ Encoding: UTF-8
 LazyData: true
 Imports: dplyr,
      purrr,
-     magrittr,
      tidyr,
      ggplot2,
      ggthemes,
@@ -23,3 +22,7 @@ Imports: dplyr,
 RoxygenNote: 7.1.2
 Depends: 
     R (>= 2.10)
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
