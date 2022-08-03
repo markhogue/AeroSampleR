@@ -7,7 +7,8 @@ This is the first issuance of AeroSampleR. v0.1.13 updates to add a vignette. Al
 ) and devtools::check_win_devel()
 
 ## R CMD check results
-There were no ERRORs or NOTES.
+There were no ERRORs. There were no NOTES except that New.md was in the top level directory. This was never noted until it was removed from the .Rbuildignore file, which I did based on a Warning that came up in the previous, aborted, release.
+
 There were two R-hub checks with a NOTE and one with no notes
 The notes were: 
 * checking for detritus in the temp directory ... NOTE
