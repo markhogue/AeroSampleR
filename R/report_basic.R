@@ -55,14 +55,15 @@ report_basic <- function(df, params, dist) {
     #utils::str(params[c(1, 2, 3, 4, 5, 10)])
     data.frame(t(params))
     cat("\n")
+    eff_cols <- tidyselect::starts_with("eff_", vars = names(df))
 
     if (dist == "discrete") {
 # make data frame with just the discrete data
             df_disc <- df |>
         dplyr::filter(dist == "discrete")
 # compute system efficiency and add this column
-      df_disc$sys_eff <-
-        purrr::pmap_dbl(dplyr::select(df_disc, tidyselect::starts_with("eff_")), prod)
+      df_disc$sys_eff <- apply(df_disc[, eff_cols], 1, prod)
+
 
 # select columns for the report
       discrete_report <- df_disc |> dplyr::select(D_p, sys_eff)
@@ -74,11 +75,9 @@ report_basic <- function(df, params, dist) {
             df_log <- df |>
         dplyr::filter(dist == "log_norm")
 
-# compute efficiency for each particle size (bin) and add this column
+ # compute efficiency for each particle size (bin) and add this column
 
-df_log$bin_eff <-
-              purrr::pmap_dbl(dplyr::select(df_log,
-              tidyselect::starts_with("eff_")), prod)
+df_log$bin_eff <- apply(df_log[, eff_cols], 1, prod)
 # compute ambient mass-based quantity for each bin
 
 df_log$ambient <- df_log$probs * 4/3 *

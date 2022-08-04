@@ -22,6 +22,8 @@
 #'
 report_plots <- function(df, dist) {
     D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = rel_activity = location = NULL
+    eff_cols <- tidyselect::starts_with("eff_", vars = names(df))
+
     if (dist == "discrete") {
         # plot by element, by particle size
         df_long <- df |>
@@ -45,14 +47,22 @@ report_plots <- function(df, dist) {
 
     if (dist == "log") {
         # mass weighted plot
-        df |>
-            dplyr::filter(dist == "log_norm") |>
-            dplyr::mutate(bin_eff = purrr::pmap_dbl(dplyr::select(., tidyselect::starts_with("eff_")),
-                prod)) |>
-            dplyr::mutate(ambient = probs * 4/3 * pi * (D_p/2)^3) |>
-            dplyr::mutate(sampled = ambient * bin_eff) |>
-            dplyr::mutate(microns = D_p) |>
-            dplyr::select(microns, ambient, sampled) |>
+      # make data frame of just the log data
+      df_log <- df |>
+        dplyr::filter(dist == "log_norm")
+
+      # compute efficiency for each particle size (bin) and add this column
+
+      df_log$bin_eff <- apply(df_log[, eff_cols], 1, prod)
+      # compute ambient mass-based quantity for each bin
+
+      df_log$ambient <- df_log$probs * 4/3 *
+        pi * (df_log$D_p/2)^3
+
+      df_log$sampled <- df_log$ambient * df_log$bin_eff
+
+      df_log$microns <-  df_log$D_p
+      df_log |> dplyr::select(microns, ambient, sampled) |>
             tidyr::pivot_longer(2:3, names_to = "location", values_to = "rel_activity") |>
             ggplot2::ggplot(ggplot2::aes(microns, rel_activity, color = location)) +
             ggplot2::geom_point() + ggplot2::ggtitle("ambient and sampled activity")
