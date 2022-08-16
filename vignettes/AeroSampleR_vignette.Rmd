@@ -1,21 +1,28 @@
 ---
-title: "AeroSampleR_vignette"
+title: "Using AeroSampleR to model aerosol sampling efficiency"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{AeroSampleR_vignette}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Using AeroSampleR to model aerosol sampling efficiency}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+  markdown: 
+    wrap: 72
 ---
 
-```{r, include = FALSE}
+```{=html}
+<style>
+body {
+text-align: justify}
+</style>
+```
+
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
-
-```{r setup}
-library(AeroSampleR)
 ```
 
 ## AeroSampleR Introduction
@@ -142,7 +149,9 @@ Calculate the efficiency of the first tube. Tube Efficiency is found using `tube
 (`angle_to_horiz`) is specified here. All three parameters can be added to the above data frame, which will return a column for each distribution.
 
 ```{r echo=TRUE, message=TRUE, warning=FALSE}
-df <- tube_eff(df, params, L = sys_df$length_cm[2] / 100, 
+df <- tube_eff(df, 
+               params, 
+               L = sys_df$length_cm[2] / 100, 
                angle_to_horiz = sys_df$angle_to_horiz[2], 
                elnum = sys_df$el_num[2])
 ```
@@ -249,4 +258,3 @@ The particle mass modeled in the ambient air and sampled through the air samplin
 ```{r echo=TRUE, message=TRUE, warning=FALSE, fig.width=5, fig.height= 3, fig.align = 'center'}
 report_plots(df, "log")
 ```
-
