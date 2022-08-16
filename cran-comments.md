@@ -7,11 +7,19 @@ AeroSampleR v0.1.14 adds a vignette and improved docummentation. Also, magrittr 
 ) and devtools::check_win_devel()
 
 ## R CMD check results
-There were no ERRORs. There were no NOTES except that New.md was in the top level directory. This was never noted until it was removed from the .Rbuildignore file, which I did based on a Warning that came up in the previous, aborted, release.
+There were no ERRORs. There were two NOTES: 1. News.md was in the top level directory. This was never noted until it was removed from the .Rbuildignore file, which I did based on a Warning that came up in the previous, aborted, release. 2. Namespace in Imports field not imported from: 'flextable'. The flextable package is used in the vignette. The Note persists whether or not it is in the imports section of the DESCRIPTION.
 
-There were two R-hub checks with a NOTE and one with no notes
-The notes were: 
-* checking for detritus in the temp directory ... NOTE
-  'lastMiKTeXException'
-* checking HTML version of manual ... NOTE
-Skipping checking HTML validation: no command 'tidy' found  
+## win-builder check results
+There were two NOTES:
+1. I changed my email address because I can't access github from behind my work address firewall.
+* Not a note, but the doi link failed to check because service was unavailable.
+2. News.md at the top level. I think this is okay now.
+
+
+## R-hub check results
+There were four NOTES: 
+1. I changed my email address because I can't access github from behind my work address firewall.
+* Not a note, but the doi link failed to check because service was unavailable.
+2. News.md at the top level. I think this is okay now.
+3. Namespasce in Imports field not imported from 'flextable'. All declared imports should be used. Yes, but I use it in the vignette.
+4. checking HTML version of manual ... NOTE Skipping checking HTML validation:: no command 'tidy' found. I don't know that this is a problem. Please advise if it is.
