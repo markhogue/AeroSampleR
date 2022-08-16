@@ -83,25 +83,29 @@ tube_eff <- function(df, params, L, angle_to_horiz, elnum) {
     # turbulent
     eff_grav_turb <- exp(-Z)
 
+    # efficiency with laminar flow
+    lam <- eff_grav_lam * eff_therm
+
+    # efficiency with turbulent flow
+    turb <- eff_turb * eff_therm * eff_grav_turb
+
+    # in between, use lower of the two
+    mixed <- min(c(lam, turb))
+
   eff_tube <- dplyr::case_when(
     # laminar flow
-    params$Re < 2100 ~ eff_grav_lam * eff_therm,
+    params$Re < 2100 ~ lam,
 
     # turbulent flow
-    params$Re > 4000 ~ eff_turb * eff_therm * eff_grav_turb,
+    params$Re > 4000 ~ turb,
 
-    # otherwise
-    TRUE ~ eff_grav_lam * eff_therm)
+    # not clearly laminar or turbulent
+    TRUE ~ mixed)
 
-  # assign lesser of efficiencies
-  if(params$Re >= 2100 &&
-    params$Re <= 4000 &&
-    params$eff_tube > eff_turb * eff_therm * eff_grav_turb){
-    params$eff_tube <- eff_turb * eff_therm * eff_grav_turb
-}
-
-    # rename eff_tube to provide unique column name
+  # add a colmn for latest efficiency
     df <- cbind(df, eff_tube)
+
+  # rename eff_tube to provide unique column name
     names(df)[length(df)] <- paste0("eff_tube_", as.character(elnum))
     df
 }
