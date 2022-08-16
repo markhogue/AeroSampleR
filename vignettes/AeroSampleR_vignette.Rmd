@@ -112,7 +112,7 @@ particles are 1, 5, and 10 micrometers AMAD.
 df <- particle_dist() #Default
 ```
 
-### 3) Set up the parameters for tube size, flow rate, temperature, and pressure. These parameters are not particle dependent and so can be kept in a samll separate data frame.
+### 3) Set up the parameters for tube size, flow rate, temperature, and pressure. These parameters are not particle dependent and so can be kept in a small separate data frame.
 
 -   D_tube is the inner diameter of the tube {cm}
 -   Q_lpm is the flow rate of air {lpm}
