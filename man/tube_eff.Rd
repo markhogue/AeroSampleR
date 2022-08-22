@@ -4,7 +4,7 @@
 \alias{tube_eff}
 \title{Tube efficiency}
 \usage{
-tube_eff(df, params, L, angle_to_horiz, elnum)
+tube_eff(df, params, L_cm, angle_to_horiz, elnum)
 }
 \arguments{
 \item{df}{is the particle data set (data frame) established with the
@@ -13,7 +13,7 @@ tube_eff(df, params, L, angle_to_horiz, elnum)
 \item{params}{is the parameter data set for parameters that are not
 particle size-dependent}
 
-\item{L}{tube length, m}
+\item{L_cm}{tube length, cm}
 
 \item{angle_to_horiz}{angle to horizontal in degrees}
 
@@ -24,18 +24,50 @@ data frame containing original particle distribution with added
 data for this element
 }
 \description{
+Computation is consistent with the approach described in Hogue, Mark;
+Thompson, Martha; Farfan, Eduardo; Hadlock, Dennis, (2014),
+"Hand Calculations for Transport of Radioactive Aerosols through
+Sampling Systems" Health Phys 106, 5, S78-S87,
+<doi:10.1097/HP.0000000000000092>, with the exception that the diffusion
+deposition mechanism is included.
+}
+\details{
 In order to run this function, first produce a particle distribution
 with the `particle_dist` function, then produce a parameter set with
 the `set_params` function. Both of these results must be stored as
 per examples described in the help set with each.
 }
 \examples{
+
+# laminar flow (Reynolds number < 2100)
+
+df <- particle_dist() #  distribution
+params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 20,
+"T_C" = 25, "P_kPa" = 101.325) #example system parameters
+df <- set_params_2(df, params) #particle size-dependent parameters
+df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
+df <- tube_eff(df, params, L_cm = 100,
+angle_to_horiz = 90, elnum = 2)
+head(df)
+# turbulent flow (Reynolds number > 4000)
+
 df <- particle_dist() #  distribution
 params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
 "T_C" = 25, "P_kPa" = 101.325) #example system parameters
 df <- set_params_2(df, params) #particle size-dependent parameters
 df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
-df <- tube_eff(df, params, L = 100,
+df <- tube_eff(df, params, L_cm = 100,
+angle_to_horiz = 90, elnum = 2)
+head(df)
+
+# midrange flow (Reynolds number > 2100 and < 4000)
+
+df <- particle_dist() #  distribution
+params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 60,
+"T_C" = 25, "P_kPa" = 101.325) #example system parameters
+df <- set_params_2(df, params) #particle size-dependent parameters
+df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
+df <- tube_eff(df, params, L_cm = 100,
 angle_to_horiz = 90, elnum = 2)
 head(df)
 
