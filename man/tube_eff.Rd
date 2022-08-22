@@ -38,6 +38,7 @@ the `set_params` function. Both of these results must be stored as
 per examples described in the help set with each.
 }
 \examples{
+# Example output is a sample of the full particle data set.
 
 # laminar flow (Reynolds number < 2100)
 
@@ -48,7 +49,7 @@ df <- set_params_2(df, params) #particle size-dependent parameters
 df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
 df <- tube_eff(df, params, L_cm = 100,
 angle_to_horiz = 90, elnum = 2)
-head(df)
+(df[sort(sample(1:1000, 10)), ])
 # turbulent flow (Reynolds number > 4000)
 
 df <- particle_dist() #  distribution
@@ -58,7 +59,7 @@ df <- set_params_2(df, params) #particle size-dependent parameters
 df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
 df <- tube_eff(df, params, L_cm = 100,
 angle_to_horiz = 90, elnum = 2)
-head(df)
+(df[sort(sample(1:1000, 10)), ])
 
 # midrange flow (Reynolds number > 2100 and < 4000)
 
@@ -69,6 +70,6 @@ df <- set_params_2(df, params) #particle size-dependent parameters
 df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
 df <- tube_eff(df, params, L_cm = 100,
 angle_to_horiz = 90, elnum = 2)
-head(df)
+(df[sort(sample(1:1000, 10)), ])
 
 }

@@ -24,6 +24,7 @@
 #' data for this element
 #'
 #' @examples
+#' # Example output is a sample of the full particle data set.
 #'
 #' # laminar flow (Reynolds number < 2100)
 #'
@@ -34,7 +35,7 @@
 #' df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
 #' df <- tube_eff(df, params, L_cm = 100,
 #' angle_to_horiz = 90, elnum = 2)
-#' head(df)
+#' (df[sort(sample(1:1000, 10)), ])
 
 #' # turbulent flow (Reynolds number > 4000)
 #'
@@ -45,7 +46,7 @@
 #' df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
 #' df <- tube_eff(df, params, L_cm = 100,
 #' angle_to_horiz = 90, elnum = 2)
-#' head(df)
+#' (df[sort(sample(1:1000, 10)), ])
 #'
 #' # midrange flow (Reynolds number > 2100 and < 4000)
 #'
@@ -56,7 +57,7 @@
 #' df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
 #' df <- tube_eff(df, params, L_cm = 100,
 #' angle_to_horiz = 90, elnum = 2)
-#' head(df)
+#' (df[sort(sample(1:1000, 10)), ])
 #'
 #' @export
 #'
