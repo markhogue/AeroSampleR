@@ -81,11 +81,11 @@ df_log$bin_eff <- apply(df_log[, eff_cols], 1, prod)
 # compute ambient mass-based quantity for each bin
 
 df_log$ambient <- df_log$dens * 4/3 *
-                   pi * (df_log$D_p/2)^3 * c(0, diff(df_log$D_p))
+                   pi * (df_log$D_p/2)^3 * diff(c(0, df_log$D_p))
 
 df_log$sampled <- df_log$ambient * df_log$bin_eff
 
-data.frame("eff_mass_weighted" = sum(df_log$sampled)/
+data.frame("activity fraction sampled" = sum(df_log$sampled)/
              sum(df_log$ambient))
     }
 }

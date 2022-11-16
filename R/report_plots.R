@@ -58,7 +58,7 @@ report_plots <- function(df, dist) {
       # compute ambient mass-based quantity for each bin
 
       df_log$ambient <- df_log$dens * 4/3 *
-        pi * (df_log$D_p/2)^3 * c(0, diff(df_log$D_p))
+        pi * (df_log$D_p/2)^3 * diff(c(0, df_log$D_p))
 
       df_log$sampled <- df_log$ambient * df_log$bin_eff
 
