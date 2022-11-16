@@ -41,6 +41,7 @@ The aerosol transport models are based on tests on clean systems. This package i
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(AeroSampleR)
 library(ggplot2)
+library(dplyr)
 library(flextable)
 ```
 
@@ -111,7 +112,22 @@ The discrete particles are 1, 5, and 10 micrometers AMAD.
 
 ```{r echo=TRUE, message=TRUE, warning=FALSE}
 df <- particle_dist() #Default
+
 ```
+
+```{r echo=FALSE, message=TRUE, warning=FALSE, fig.width=5, fig.height= 3}
+df |> filter(dist == "log_norm") |> 
+  ggplot(aes(D_p, dens)) + geom_point(color = "blue") +
+  ggtitle("distribution of lognormal particle sizes")
+
+df |> filter(dist == "log_norm") |> 
+  mutate("activity" = D_p ^3 * dens)  |> 
+  ggplot(aes(D_p, activity)) + geom_point(color = "blue") +
+  ggtitle("relative activity by particle size",
+          subtitle = "diameter cubed times density")
+
+```
+
 
 ### 3) Set up the parameters for tube size, flow rate, temperature, and pressure. These parameters are not particle dependent and so can be kept in a small separate data frame.
 
