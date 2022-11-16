@@ -34,12 +34,13 @@ particle_dist <- function(AMAD = 5,
                           discrete_vals = c(1, 5, 10)) {
   n <- 1000 # number of bins - have to be high to meet del target
   log_int <- (log(log_norm_max) - log(log_norm_min)) / (n - 1)
-
+  particle_bins <- log_norm_min * exp(0:(n - 1) * log_int)
   particle_dens <- stats::dlnorm(particle_bins,
                     log(AMAD),
                     log(log_norm_sd))
 
-    df$dist <- "log_norm"
+  df <- data.frame("D_p" = particle_bins, "dens" = particle_dens)
+  df$dist <- "log_norm"
   df <- rbind(df,
       data.frame("D_p" =  discrete_vals,
                  "dens" = rep(1, length(discrete_vals)),
