@@ -1,4 +1,4 @@
-#' report on cumulative transport system efficiency
+#' report on cumulative transport system efficiency (discrete particle sizes only)
 #'
 #' In order to run a report, first produce a model of each individual
 #' element. Start with producing a particle distribution
@@ -21,8 +21,9 @@
 #' @export
 #'
 report_cum_plots <- function(df, micron) {
-
-    D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = NULL
+    df <- df |> dplyr::filter(dist == "discrete")
+    D_p = microns = sys_eff = dens = ambient = bin_eff = sampled = . =
+      starts_with = everything = element = efficiency = dist = NULL
 
     # make a cumulative efficiency set
     df_effs <- df |>

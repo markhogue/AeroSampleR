@@ -105,8 +105,9 @@ sys_df <- readxl::read_xlsx(path = "c:/work/system.xlsx",
 
 ### 2) Create particle distribution with `particle_dist()`
 
-This function provides a logarithmic distribution of 1000 particle sizes and an additional set of discrete particles. By default, the logarithmically-distributed particles have an AMAD of 5 and a lognormal standard deviation of 2.5, consistent with ICRP 66. The discrete
-particles are 1, 5, and 10 micrometers AMAD.
+This function provides a logarithmic distribution of 1000 particle sizes and an additional set of discrete particles. By default, the logarithmically-distributed particles have an AMAD of 5 and a lognormal standard deviation of 2.5, consistent with ICRP 66. 
+
+The discrete particles are 1, 5, and 10 micrometers AMAD.
 
 ```{r echo=TRUE, message=TRUE, warning=FALSE}
 df <- particle_dist() #Default
@@ -216,7 +217,7 @@ report_cum_plots(df, 10)
 ft <- flextable(report_basic(df, params, "log"))
 ft <- colformat_double(ft, digits = 3)
 ft <- set_caption(ft, "results for log distribution of particle diameters")
-ft
+ft  
 
 ```
 
@@ -226,14 +227,14 @@ The `report_log_mass` function provides details on every particle size.
 
 Since there are 1000 data points, the full ouptput is probably not suitable for a typical report. The report provides the following columns of output: 
 
--microns = the particle size in micrometers (microns is
+-  microns = the particle size in micrometers (microns is
 shorter, but is considered supersed by micrometers) 
--probs = relative probability of a particle being in this size bin 
--bin_eff = the overall system efficiency for a particle of this size 
--amb_mass = the probability of the particle multiplied by the mass of a spherical particle with the size given and density of 1 g per ml. This is the relative mass of this particle size in the ambient air being sampled.
--sampled_mass = the relative mass that made it through the sampling system with this particle size 
--bin_frac_lost = ambient mass in this bin minus the sampled mass in the bin, divided by the ambient mass
--total_frac_lost = ambient mass in this bin minus the sampled mass in the bin, divided by the sum of the ambient mass
+-  probs = relative probability of a particle being in this size bin 
+-  bin_eff = the overall system efficiency for a particle of this size 
+-  amb_mass = the probability of the particle multiplied by the mass of a spherical particle with the size given and density of 1 g per ml. This is the relative mass of this particle size in the ambient air being sampled.
+-  sampled_mass = the relative mass that made it through the sampling system with this particle size 
+-  bin_frac_lost = ambient mass in this bin minus the sampled mass in the bin, divided by the ambient mass
+-  total_frac_lost = ambient mass in this bin minus the sampled mass in the bin, divided by the sum of the ambient mass
 
 A random selection of ten rows of the 1000 rows are provided below:
 

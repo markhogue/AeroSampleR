@@ -2,7 +2,7 @@
 % Please edit documentation in R/report_cum_plots.R
 \name{report_cum_plots}
 \alias{report_cum_plots}
-\title{report on cumulative transport system efficiency}
+\title{report on cumulative transport system efficiency (discrete particle sizes only)}
 \usage{
 report_cum_plots(df, micron)
 }

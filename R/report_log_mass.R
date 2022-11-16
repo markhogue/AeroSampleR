@@ -23,7 +23,7 @@
 #'
 report_log_mass <- function(df) {
 
-    D_p = microns = sys_eff = probs = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = sampled_mass = bin_frac_lost = total_frac_lost = dist = NULL
+    D_p = microns = sys_eff = dens = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = sampled_mass = bin_frac_lost = total_frac_lost = dist = NULL
 
     # make data frame of just the log data
     df_log <- df |>
@@ -37,8 +37,8 @@ report_log_mass <- function(df) {
 
     # compute ambient mass-based quantity for each bin
 
-    df_log$amb_mass <- df_log$probs * 4/3 *
-      pi * (df_log$D_p/2)^3
+    df_log$amb_mass <- df_log$dens * 4/3 *
+      pi * (df_log$D_p/2)^3 * c(0, diff(df_log$D_p))
 
     df_log$sampled_mass <- df_log$amb_mass * df_log$bin_eff
 
@@ -50,7 +50,7 @@ report_log_mass <- function(df) {
                 df_log$sampled_mass) /
                 sum(df_log$amb_mass)
 
-    dplyr::select(df_log, D_p, probs, bin_eff, amb_mass, sampled_mass, bin_frac_lost,
+    dplyr::select(df_log, D_p, dens, bin_eff, amb_mass, sampled_mass, bin_frac_lost,
             total_frac_lost)
 
 }

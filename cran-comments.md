@@ -1,5 +1,5 @@
 ## Revision purpose
-AeroSampleR v0.1.14 adds a vignette and improved docummentation. Also, magrittr pipe operators were changed to the R base version. Due to the pipe change, the reports were revised to work around dot issues with purrr functions.
+AeroSampleR v0.1.15 corrects errors with the `tube_eff` function.
 
 ## Test environments
 * local Windows 11 with 2022-08 Cumulative Update for Windows 11 for x64-based Systems (KB5016629)

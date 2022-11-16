@@ -1,3 +1,6 @@
+# AeroSampleR (version 0.2.0)
+***2022-11-15*** Correct summing method for total activity in lognormal distributions of particles. Before: summed particle size^3 * density. After: sum particle size^3 * density * delta(particle size). Now includes factor of differential particle size. 
+
 # AeroSampleR (version 0.1.15)
 ***2022-08-22*** Fix errors with tube_eff: L set to length_cm / 100 and efficiency for mid-range Re corrected to minimum for each particle size vs min of all particle sizes. 
 
