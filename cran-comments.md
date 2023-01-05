@@ -1,5 +1,5 @@
 ## Revision purpose
-AeroSampleR v0.1.15 corrects errors with the `tube_eff` function.
+AeroSampleR v0.2.0 Correct summing method for total activity in lognormal distributions of particles.
 
 ## Test environments
 * local Windows 11 with 2022-08 Cumulative Update for Windows 11 for x64-based Systems (KB5016629)
