@@ -1,19 +1,12 @@
 ## Revision purpose
-AeroSampleR v0.2.0 Correct summing method for total activity in lognormal distributions of particles.
+AeroSampleR v0.3.0 removes a function option that sometimes fails.
 
 ## Test environments
-* local Windows 11 with 2022-08 Cumulative Update for Windows 11 for x64-based Systems (KB5016629)
-R 4.2.1
+* local Windows 11 home version 25H2
+* passed all checks with devtools::rhub::check(
+  platform="windows-x86_64-devel",
+  env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always")
+) and devtools::check_win_devel()
 
 ## R CMD check results
-There were no ERRORs. There was one NOTES: 1. Namespace in Imports field not imported from: 'flextable'. The flextable package is used in the vignette. The Note persists whether or not it is in the imports section of the DESCRIPTION.
-
-## win-builder check results
-There was one NOTES:
-1. I changed my email address because I can't access github from behind my work address firewall.
-
-## R-hub check results
-There were three NOTES: 
-1. I changed my email address because I can't access github from behind my work address firewall.
-2. Namespasce in Imports field not imported from 'flextable'. All declared imports should be used. Yes, but I use it in the vignette.
-3. checking HTML version of manual ... NOTE Skipping checking HTML validation:: no command 'tidy' found. I don't know that this is a problem. Please advise if it is.
+There were no ERRORs, WARNINGS when running devtools::check() with default parameters. There was one NOTE regarding the placement of News.md, but I believe it is actually in a correct location.
