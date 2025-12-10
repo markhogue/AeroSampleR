@@ -18,7 +18,8 @@ Imports: dplyr,
      ggplot2,
      ggthemes,
      stringr,
-     tidyselect
+     tidyselect,
+     flextable
 RoxygenNote: 7.3.3
 Depends: 
     R (>= 3.4)
