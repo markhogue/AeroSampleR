@@ -4,7 +4,7 @@
 \alias{bend_eff}
 \title{bend efficiency}
 \usage{
-bend_eff(df, params, method, bend_angle, bend_radius, elnum)
+bend_eff(df, params, method = "Zhang", bend_angle, bend_radius, elnum)
 }
 \arguments{
 \item{df}{is the particle data set (data frame) established with the
@@ -13,7 +13,7 @@ bend_eff(df, params, method, bend_angle, bend_radius, elnum)
 \item{params}{is the parameter data set for parameters that are not
 particle size-dependent}
 
-\item{method}{choice of models: Pui, McFarland, or Zhang}
+\item{method}{choice of models: Pui or Zhang. Zhang is the default.}
 
 \item{bend_angle}{bend angle in degrees}
 
@@ -42,10 +42,6 @@ bend_radius=0.1, elnum=3)
 head(df)
 }
 \references{
-A. R. McFarland, H. Gong, A. Muyshondt, W. B. Wente, and N. K. Anand
-Environmental Science & Technology 1997 31 (12), 3371-3377
-<doi:10.1021/es960975c>
-
 Pusheng Zhang, Randy M. Roberts, André Bénard,
 Computational guidelines and an empirical model for particle deposition
 in curved pipes using an Eulerian-Lagrangian approach,
