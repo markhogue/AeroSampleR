@@ -9,4 +9,4 @@ AeroSampleR v0.3.0 removes a function option that sometimes fails.
 ) and devtools::check_win_devel()
 
 ## R CMD check results
-There were no ERRORs, WARNINGS when running devtools::check() with default parameters. There was one NOTE regarding the placement of News.md, but I believe it is actually in a correct location.
+There were no ERRORs, WARNINGS when running devtools::check() with default parameters. There was one NOTE regarding the use of the flextable package. This package is used only in the vignette and the check notes that it is not used in any functions.
