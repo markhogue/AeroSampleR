@@ -13,16 +13,16 @@
 #' `set_params_2` adds particle size-dependent parameters to the
 #' particle distribution
 #'
-#' @param df is the particle data set (data frame) established with the
-#' `particle_dist` function
-#' @param params is the parameter data set for parameters that are not
-#' particle size-dependent
+#' @param my_df is the particle data set (data frame) established with the
+#' `particle_dist` function. Default is `df`.
+#' @param my_params is the parameter data set for parameters that are not
+#' particle size-dependent. Default is `params`
 #'
 #' @examples
 #' df <- particle_dist()
 #' params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
 #' "T_C" = 25, "P_kPa" = 101.325)
-#' df <- set_params_2(df, params)
+#' df <- set_params_2(my_df = df, my_params = params)
 #' head(df)
 #'
 #' @return a data frame starting with the submitted particle
@@ -31,32 +31,32 @@
 #'
 #' @export
 #'
-set_params_2 <- function(df, params) {
+set_params_2 <- function(my_df = df, my_params = params) {
   # Author notes for documentation in Q-CLC-G-00128
   # Depo_Calc Eq 6: Cunningham Correction Factor
   # Depo Calc Eq 33: terminal settling velocity
   # Depo Calc Eq 32: Particle Reynolds number (tube)
   # Depo_Calc Eq 7: Stokes number
-C_c = v_ts = sys_eff = NULL
+df <- params <- C_c <- v_ts <- sys_eff <- NULL
 
-df <- df |> dplyr::mutate(
-  C_c = 1 + params$mfp / df$D_p *
-    (2.34 + 1.05 * exp(-0.39 * df$D_p)),
+my_df <- my_df |> dplyr::mutate(
+  C_c = 1 + my_params$mfp / my_df$D_p *
+    (2.34 + 1.05 * exp(-0.39 * my_df$D_p)),
 
-  v_ts = params$density_par * 9.807 * (1e-6 * df$D_p)^2 * C_c /
-       (18 * params$viscosity_air),
+  v_ts = my_params$density_par * 9.807 * (1e-6 * my_df$D_p)^2 * C_c /
+       (18 * my_params$viscosity_air),
 
   # C_d = 24 / -- skipping due to circular references (Re_p)
   #
-  # v_ts_turb = sqrt(4 * params$density_par * 9.807 * (1e-6 * df$D_p)^2 /
-  #   (3 * C_d * params$density_air)),
+  # v_ts_turb = sqrt(4 * my_params$density_par * 9.807 * (1e-6 * my_df$D_p)^2 /
+  #   (3 * C_d * my_params$density_air)),
 
 
-  Re_p = params$density_air * v_ts * 1e-6 * df$D_p /
-    params$viscosity_air,
+  Re_p = my_params$density_air * v_ts * 1e-6 * my_df$D_p /
+    my_params$viscosity_air,
 
-  Stk = C_c * params$density_par * (1e-6 * df$D_p)^2 * params$velocity_air /
-    (9 * params$viscosity_air * params$D_tube))
+  Stk = C_c * my_params$density_par * (1e-6 * my_df$D_p)^2 * my_params$velocity_air /
+    (9 * my_params$viscosity_air * my_params$D_tube))
 
-df
+my_df
   }

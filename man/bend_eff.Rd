@@ -4,22 +4,26 @@
 \alias{bend_eff}
 \title{bend efficiency}
 \usage{
-bend_eff(df, params, method = "Zhang", bend_angle, bend_radius, elnum)
+bend_eff(
+  my_df = df,
+  el_num,
+  my_sys_df = sys_df,
+  my_params = params,
+  method = "Zhang"
+)
 }
 \arguments{
-\item{df}{is the particle data set (data frame) established with the
-`particle_dist` function}
+\item{my_df}{is the particle data set (data frame) established with the
+`particle_dist` function. Default is `df`.}
 
-\item{params}{is the parameter data set for parameters that are not
+\item{el_num}{element number to provide unique column names}
+
+\item{my_sys_df}{is a data frame describing the system. See [example_sys_df]. Default is `sys_df`}
+
+\item{my_params}{is the parameter data set for parameters that are not
 particle size-dependent}
 
 \item{method}{choice of models: Pui or Zhang. Zhang is the default.}
-
-\item{bend_angle}{bend angle in degrees}
-
-\item{bend_radius}{bend radius in m}
-
-\item{elnum}{element number to provide unique column names}
 }
 \value{
 data frame containing original particle distribution with added
@@ -32,14 +36,16 @@ the `set_params` function. Both of these results must be stored as
 per examples described in the help set with each.
 }
 \examples{
-df <- particle_dist() # set up particle distribution
-params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
+sys_df <- example_sys_df
+params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 60,
 "T_C" = 25, "P_kPa" = 101.325) #example system parameters
-df <- set_params_2(df, params) #particle size-dependent parameters
-df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
-df <- bend_eff(df, params, method='Zhang', bend_angle=90,
-bend_radius=0.1, elnum=3)
-head(df)
+df <- particle_dist() |> # default particle distribution
+      set_params_2(params) |>  #particle size-dependent parameters
+      probe_eff(el_num = 1, my_params = params, my_sys_df = sys_df) |>
+      tube_eff(el_num = 2, my_params = params, my_sys_df = sys_df) |>
+      bend_eff(el_num = 3, my_params = params, my_sys_df = sys_df)
+ message("displaying samples of 1003 lines of results")
+(df[c(seq(100, 700, length.out = 5), 1001:1003), ])
 }
 \references{
 Pusheng Zhang, Randy M. Roberts, André Bénard,

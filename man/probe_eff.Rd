@@ -2,40 +2,49 @@
 % Please edit documentation in R/probe_eff.R
 \name{probe_eff}
 \alias{probe_eff}
-\title{Probe efficiency}
+\title{Probe efficiency for open pipe style occupational air sample inlet}
 \usage{
-probe_eff(df, params, orient = "u", method = "blunt pipe")
+probe_eff(my_df = df, el_num = 1, my_sys_df = sys_df, my_params = params)
 }
 \arguments{
-\item{df}{is the particle data set (data frame) established with the
-`particle_dist` function}
+\item{my_df}{is the particle data set (data frame) established with the
+`particle_dist` function. Default is `df`.}
 
-\item{params}{is the parameter data set for parameters that are not
-particle size-dependent}
+\item{el_num}{element number of the tube in `my_sys_df`. Default = 1}
 
-\item{orient}{orientation of the probe. Options are 'u' for up,
-'d' for down, and 'h' for horizontal}
+\item{my_sys_df}{is a data frame describing the system. See [example_sys_df]. Default is `sys_df`.}
 
-\item{method}{is the model for the probe efficiency. Default is
-'blunt pipe', based on Su WC and Vincent JH, Towards a general
-semi-empirical model for the aspiration efficiencies of aerosol samplers
-in perfectly calm air, Aerosol Science 35 (2004) 1119-1134}
+\item{my_params}{is the parameter data set for parameters that are not
+particle size-dependent. Default is `params`.}
 }
 \value{
 data frame containing original particle distribution with added
-data for this element
+data for this element, an open pipe collection point.
 }
 \description{
+The efficiency is calculated based on a 'blunt pipe' from Su WC and
+Vincent JH, Towards a general semi-empirical model for the aspiration
+efficiencies of aerosol samplers in perfectly calm air, Aerosol Science 35
+(2004) 1119-1134.
+}
+\details{
 In order to run this function, first produce a particle distribution
 with the `particle_dist` function, then produce a parameter set with
 the `set_params` function. Both of these results must be stored as
 per examples described in the help set with each.
 }
 \examples{
-df <- particle_dist() # set up particle distribution
+sys_df <- example_sys_df
 params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
 "T_C" = 25, "P_kPa" = 101.325) #example system parameters
-df <- set_params_2(df, params) #particle size-dependent parameters
-df <- probe_eff(df, params, orient = 'u') #probe orientation - draws upward
+df <- particle_dist() |> # set up particle distribution
+       set_params_2(params) |>  #particle size-dependent parameters
+       probe_eff(el_num = 1, my_params = params, my_sys_df = sys_df)
 head(df)
+}
+\references{
+Su, W., & H. Vincent, J. (2004). Towards a general semi-empirical
+model for the aspiration efficiencies of aerosol samplers in perfectly calm
+air. Journal of Aerosol Science, 35(9), 1119-1134.
+https://doi.org/10.1016/j.jaerosci.2004.04.003
 }

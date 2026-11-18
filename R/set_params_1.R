@@ -26,15 +26,22 @@ set_params_1 <- function(D_tube_cm,
                        T_C = 20,
                        P_kPa = 101.325) {
   S <-  110.56 #Sutherland constant, K
-  CK <- 273.15
+  CK <- 273.15 #add this to temperature in C to get Kelvin units
 
  D_tube <- D_tube_cm / 100
- Q_lpm <- Q_lpm #used for reporting and calculating v
+
+ Q_lpm <- Q_lpm #flow rate used for reporting and calculating v
+
  velocity_air <- Q_lpm / 1000 / 60 / # conversion from lpm to cfs
         (pi * (D_tube / 2)^2) #m/s
+
+ # temperatures
  T_C <- T_C
  T_K <- T_C + CK
+
+ # pressures
  P_kPa <- P_kPa
+
  R_u <- 8314.471 #U gas constant J/kmol·K
  MW_air <- 28.962 #kg/kmol
  k <- 1.3807E-23 # N*m/K Boltzmann's Constant

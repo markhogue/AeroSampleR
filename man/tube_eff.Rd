@@ -4,20 +4,18 @@
 \alias{tube_eff}
 \title{Tube efficiency}
 \usage{
-tube_eff(df, params, L_cm, angle_to_horiz, elnum)
+tube_eff(my_df = df, el_num, my_sys_df = sys_df, my_params = params)
 }
 \arguments{
-\item{df}{is the particle data set (data frame) established with the
-`particle_dist` function}
+\item{my_df}{is the particle data set (data frame) established with the
+`particle_dist` function. Default is `df`.}
 
-\item{params}{is the parameter data set for parameters that are not
-particle size-dependent}
+\item{el_num}{element number of the tube in `sys_df`}
 
-\item{L_cm}{tube length, cm}
+\item{my_sys_df}{is a data frame describing the system. See [example_sys_df]}
 
-\item{angle_to_horiz}{angle to horizontal in degrees}
-
-\item{elnum}{element number to provide unique column names}
+\item{my_params}{is the parameter data set for parameters that are not
+particle size-dependent. Default is `params`.}
 }
 \value{
 data frame containing original particle distribution with added
@@ -29,9 +27,16 @@ Thompson, Martha; Farfan, Eduardo; Hadlock, Dennis, (2014),
 "Hand Calculations for Transport of Radioactive Aerosols through
 Sampling Systems" Health Phys 106, 5, S78-S87,
 <doi:10.1097/HP.0000000000000092>, with the exception that the diffusion
-deposition mechanism is included.
+deposition mechanism is included. (SRNS-STI-2012-00731 R1, Shorthand STI)
 }
 \details{
+Kulkarni is shorthand reference for Chapter 2 in Aerosol Measurement:
+Principles, Techniques and Applications, Third Edition, Edited by Kulkarni P,
+Baron PA, and Willeke K. Wiley, Hoboken NJ, 2011.
+
+Blunt is shorthand reference for Deposition Calculator Technical Description
+Manual, BC-15-RP-003 version 1.1.1. 2015.
+
 In order to run this function, first produce a particle distribution
 with the `particle_dist` function, then produce a parameter set with
 the `set_params` function. Both of these results must be stored as
@@ -42,34 +47,40 @@ per examples described in the help set with each.
 
 # laminar flow (Reynolds number < 2100)
 
-df <- particle_dist() #  distribution
+sys_df <- example_sys_df
 params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 20,
 "T_C" = 25, "P_kPa" = 101.325) #example system parameters
-df <- set_params_2(df, params) #particle size-dependent parameters
-df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
-df <- tube_eff(df, params, L_cm = 100,
-angle_to_horiz = 90, elnum = 2)
-(df[sort(sample(1:1000, 10)), ])
+df <- particle_dist() |> # default particle distribution
+      set_params_2(params) |>  #particle size-dependent parameters
+      probe_eff(el_num = 1, my_params = params, my_sys_df = sys_df) |>
+      tube_eff(el_num = 2, my_params = params, my_sys_df = sys_df)
+
+ message("displaying samples of 1003 lines of results")
+(df[c(seq(100, 700, length.out = 5), 1001:1003), ])
 # turbulent flow (Reynolds number > 4000)
 
-df <- particle_dist() #  distribution
+sys_df <- example_sys_df
 params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
 "T_C" = 25, "P_kPa" = 101.325) #example system parameters
-df <- set_params_2(df, params) #particle size-dependent parameters
-df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
-df <- tube_eff(df, params, L_cm = 100,
-angle_to_horiz = 90, elnum = 2)
-(df[sort(sample(1:1000, 10)), ])
+df <- particle_dist() |> # default particle distribution
+      set_params_2(params) |>  #particle size-dependent parameters
+      probe_eff(el_num = 1, my_params = params, my_sys_df = sys_df) |>
+      tube_eff(el_num = 2, my_params = params, my_sys_df = sys_df)
+
+ message("displaying samples of 1003 lines of results")
+(df[c(seq(100, 700, length.out = 5), 1001:1003), -c(4:7)])
 
 # midrange flow (Reynolds number > 2100 and < 4000)
 
-df <- particle_dist() #  distribution
+sys_df <- example_sys_df
 params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 60,
 "T_C" = 25, "P_kPa" = 101.325) #example system parameters
-df <- set_params_2(df, params) #particle size-dependent parameters
-df <- probe_eff(df, params, orient = 'h') #probe orientation - horizontal
-df <- tube_eff(df, params, L_cm = 100,
-angle_to_horiz = 90, elnum = 2)
-(df[sort(sample(1:1000, 10)), ])
+df <- particle_dist() |> # default particle distribution
+      set_params_2(params) |>  #particle size-dependent parameters
+      probe_eff(el_num = 1, my_params = params, my_sys_df = sys_df) |>
+      tube_eff(el_num = 2, my_params = params, my_sys_df = sys_df)
+
+ message("displaying samples of 1003 lines of results")
+(df[c(seq(100, 700, length.out = 5), 1001:1003), ])
 
 }

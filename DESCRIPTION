@@ -1,7 +1,7 @@
 Package: AeroSampleR
 Type: Package
 Title: Estimate Aerosol Particle Collection Through Sample Lines
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: person(given = "Mark",
                     family = "Hogue",
                     role = c("aut", "cre"),
@@ -15,17 +15,18 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: dplyr,
-     purrr,
      tidyr,
      ggplot2,
      ggthemes,
      stringr,
      tidyselect,
      flextable
-RoxygenNote: 7.3.3
 Depends: 
     R (>= 4.1.0)
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0
+Config/testthat/edition: 3

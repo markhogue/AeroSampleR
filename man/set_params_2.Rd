@@ -4,14 +4,14 @@
 \alias{set_params_2}
 \title{Make a set of particle-size-dependent parameters}
 \usage{
-set_params_2(df, params)
+set_params_2(my_df = df, my_params = params)
 }
 \arguments{
-\item{df}{is the particle data set (data frame) established with the
-`particle_dist` function}
+\item{my_df}{is the particle data set (data frame) established with the
+`particle_dist` function. Default is `df`.}
 
-\item{params}{is the parameter data set for parameters that are not
-particle size-dependent}
+\item{my_params}{is the parameter data set for parameters that are not
+particle size-dependent. Default is `params`}
 }
 \value{
 a data frame starting with the submitted particle
@@ -37,7 +37,7 @@ particle distribution
 df <- particle_dist()
 params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 100,
 "T_C" = 25, "P_kPa" = 101.325)
-df <- set_params_2(df, params)
+df <- set_params_2(my_df = df, my_params = params)
 head(df)
 
 }

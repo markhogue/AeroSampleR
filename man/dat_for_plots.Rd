@@ -8,7 +8,7 @@
 A \code{data.frame}
 \describe{
 \item{D_p}{particle diameter in micrometers}
-\item{dens}{probability density}
+\item{prob}{probability in bin}
 \item{dist}{either log_norm or discrete}
 \item{C_c}{Cunningham slip correction factor}
 \item{v_ts}{particle terminal velocity}

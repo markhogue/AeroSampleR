@@ -27,23 +27,19 @@
 #'
 #' @export
 #'
-particle_dist <- function(AMAD = 5,
-                          log_norm_sd = 2.5,
-                          log_norm_min = 5e-4,
-                          log_norm_max = 100,
-                          discrete_vals = c(1, 5, 10)) {
-  n <- 1000 # number of bins - have to be high to meet del target
-  log_int <- (log(log_norm_max) - log(log_norm_min)) / (n - 1)
+particle_dist <- function (AMAD = 5, log_norm_sd = 2.5, log_norm_min = 5e-04,
+                                log_norm_max = 100, discrete_vals = c(1, 5, 10)) {
+  n <- 1000
+  log_int <- (log(log_norm_max) - log(log_norm_min))/(n - 1)
   particle_bins <- log_norm_min * exp(0:(n - 1) * log_int)
-  particle_dens <- stats::dlnorm(particle_bins,
-                    log(AMAD),
-                    log(log_norm_sd))
-
-  df <- data.frame("D_p" = particle_bins, "dens" = particle_dens)
+  particle_cumprob <- stats::plnorm(particle_bins, log(AMAD),
+                                    log(log_norm_sd))
+  df <- data.frame(D_p = particle_bins,
+                   prob = c(0, diff(particle_cumprob)))
   df$dist <- "log_norm"
   df <- rbind(df,
-      data.frame("D_p" =  discrete_vals,
-                 "dens" = rep(1, length(discrete_vals)),
-                 "dist" =  rep("discrete", length(discrete_vals))))
+              data.frame(D_p = discrete_vals,
+                         prob = rep(1,length(discrete_vals)),
+                         dist = rep("discrete", length(discrete_vals))))
   df
-  }
+}

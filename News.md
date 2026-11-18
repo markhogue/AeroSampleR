@@ -1,3 +1,6 @@
+# AeroSampleR (version 0.4.0)
+***2026-11-12*** Fixed error in tube_eff formula. Changed distribution term from dens (density) to prob (bin probability). Updated documentation in the functions.
+
 # AeroSampleR (version 0.3.0)
 ***2025-12-10*** Removed the McFarland bend method and made Zhang the default. This is because the McFarland model only worked with certain parameters before division by very low numbers occurred, causing a crash of the function. There were no parameter boundaries suggesting where the trouble might occur or when invalid results would occur that did not crash. Zhang was selected as the default because the only other alternative, Pui, is based on old studies in small glass tubes. So Pui is not relevant to modern radioactive particulate sampling, but is kept in the package because of ongoing use in some effluent sampling calculations.
 

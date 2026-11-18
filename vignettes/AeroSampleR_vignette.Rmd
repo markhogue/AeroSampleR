@@ -46,26 +46,18 @@ library(flextable)
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, comment = ">"}
-sys_df <- structure(list( el_num = c("1", "2", "3", "4"), 
-    el_type = c("probe", "tube", "bend", "tube"), 
-    length_cm = c(NA, 111.76, NA, 146.05), 
-    angle_to_horiz = c(NA, 90, NA, 0), 
-    orient = c("u", NA, NA, NA), 
-    bend_angle = c(NA, NA, 90, NA), 
-    bend_rad_cm = c(NA, NA, 12.7, NA)), 
-    row.names = c(NA, -4L), 
-    class = c("tbl_df", "tbl", "data.frame"))
+sys_df <- example_sys_df
 cat("\n")
 ```
 
 ### example data
 The first task in evaluating a system is to set up a table that includes all the "elements" with the following column headers:
-
+- `system` optional. Useful if you want to subset the system data for multiple systems
 - `el_num` sequential number of the element
-- `el_type` starting with "probe", followed by "tube" and "bend" elements
+- `el_type` starting with "probe", followed by "tube" and "bend" elements. Order should follow naturally from the sample collection point to the last element before the sample filter. Only these exact names are allowed.
 - `length_cm` length of tubes in centimeters. Leave blank for probe and bends.
 - `angle_to_horiz` degree of slope of straight tube elements. Leave blank for probes and bends.
-- `orient` orientation of the probe. Options are "u" for up, "d" for down and "h" for horizontal
+- `orient` orientation of the probe. Options are "u" for up, "d" for down and "h" for horizontal.
 ``bend_angle` how many degrees a bend turns the sample. Typically, 90 or 45. Leave blank for probes and tubes.
 - `bend_rad_cm` the bend radius in centimeters. Leave blank for probes and tubes.
 
@@ -77,32 +69,7 @@ ft
 
 ### 1) Get the system data
 
-You need to get this data into R and call it `sys_df`, the "system" data frame. There are many options on how to do this. Below are two examples. You will have to provide the path and the file name, but for the example, we'll show the file to be called system.txt or system.xlsx in `c:/work`.  Here are two:
-
-a. Use base R, (`utils` package that is loaded with base R) to read a text file:
-
-```{r echo=TRUE, eval=FALSE}
-sys_df <- read.table(
-  file = "c:/work/system.txt",
-  header = TRUE
-  )
-```
-
-b. Use the readxl package to read a spreadsheet of the 'xlsx' format:
-
-```{r echo=TRUE, eval=FALSE}
-sys_df <- readxl::read_xlsx(path = "c:/work/system.xlsx",
-           sheet = "Sheet1", #default - update if needed
-           range = "A1:G5", #put in entire range
-           col_types = c("numeric",
-                         "text",
-                         "numeric",
-                         "numeric",
-                         "text",
-                         "numeric",
-                         "numeric")
-                            )
-```                            
+You need to get this data into R. Name it `sys_df` to allow default use of this data in the efficiency functions. There are many options on how to do this and Rstudio makes it easy from the Environment tab.
 
 ### 2) Create particle distribution with `particle_dist()`
 
@@ -116,20 +83,15 @@ df <- particle_dist() #Default
 ```
 
 ```{r echo=FALSE, message=TRUE, warning=FALSE, fig.width=5, fig.height= 3}
-df |> filter(dist == "log_norm") |> 
-  ggplot(aes(D_p, dens)) + geom_point(color = "blue") +
-  ggtitle("distribution of lognormal particle sizes")
-
-df |> filter(dist == "log_norm") |> 
-  mutate("activity" = D_p ^3 * dens)  |> 
-  ggplot(aes(D_p, activity)) + geom_point(color = "blue") +
-  ggtitle("relative activity by particle size",
-          subtitle = "diameter cubed times density")
+df |> dplyr::filter(dist == "log_norm") |> 
+  ggplot2::ggplot(ggplot2::aes(D_p, prob)) + 
+  ggplot2::geom_point(color = "blue") +
+  ggplot2::ggtitle("distribution of lognormal particle sizes")
 
 ```
 
 
-### 3) Set up the parameters for tube size, flow rate, temperature, and pressure. These parameters are not particle dependent and so can be kept in a small separate data frame.
+### 3) Set up the parameters for tube size, flow rate, temperature, and pressure. These parameters are not particle dependent. Since they are the same for all particle sizes, they are not included in the working data frame (df).
 
 -   D_tube is the inner diameter of the tube {cm}
 -   Q_lpm is the flow rate of air {lpm}
@@ -144,8 +106,7 @@ params <- set_params_1("D_tube" = 2.54 - (2 * 0.165), #1 inch tube diameter
                        "P_kPa" = 101.325)
 ```
 
-Next, we compute the particle size-dependent parameters. These include factors for transport efficiency computation. - Cunningham Correction Factor {C_c} - terminal settling velocity {v_ts} - Particle Reynolds
-number (tube) {Re_p} - Stokes number {Stk}
+Next, we compute the particle size-dependent parameters. These include factors for transport efficiency computation. - Cunningham Correction Factor {C_c} - terminal settling velocity {v_ts} - Particle Reynolds number (tube) {Re_p} - Stokes number {Stk}
 
 ```{r echo=TRUE, message=TRUE, warning=FALSE}
 df <- set_params_2(df, params)
@@ -159,41 +120,32 @@ Calculate the efficiency of the probe via `prob_eff()` and add it to a new data 
 the first row, so we use `[1]` to identify the orient parameter.
 
 ```{r echo=TRUE, message=TRUE, warning=FALSE}
-df <- probe_eff(df, params, orient = sys_df$orient[1]) 
+df <- probe_eff(my_df = df, el_num = 1, my_params = params, my_sys_df = sys_df) 
 ```
 
 Calculate the efficiency of the first tube. Tube Efficiency is found using `tube_eff()` function. The length is given in cm (`length_cm`) and the angle from tube to horizontal orientation parameter
 (`angle_to_horiz`) is specified here. All three parameters can be added to the above data frame, which will return a column for each distribution.
 
-```{r echo=TRUE, message=TRUE, warning=FALSE}
-df <- tube_eff(df, 
-               params, 
-               L = sys_df$length_cm[2] / 100, 
-               angle_to_horiz = sys_df$angle_to_horiz[2], 
-               elnum = sys_df$el_num[2])
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+df <- tube_eff(my_df = df, el_num = 2, my_params = params, my_sys_df = sys_df)
 ```
 
 Calculate the efficiency of the bend. Here, we'll take the Zhang model option. Bend Efficiency is found via the `bend_eff()` function and is where you will choose to use one of three different tube models {Zhang (the default), or Pui}. The bend angle and element number are also listed in the function.
 
 ```{r echo=TRUE, message=TRUE, warning=FALSE}
-df <- bend_eff(df, params, method = "Zhang", 
-               bend_angle = sys_df$bend_angle[3],
-               bend_radius = sys_df$bend_rad_cm[3] / 100, 
-               elnum = sys_df$el_num[3])
+df <- bend_eff(my_df = df, el_num = 3, my_params = params, my_sys_df = sys_df)
 ```
 
 Finally, we'll calculate transport efficiency through the last tube element.
 
 ```{r echo=TRUE, message=TRUE, warning=FALSE}
-df <- tube_eff(df, params, L = sys_df$length_cm[2] / 100, 
-               angle_to_horiz = sys_df$angle_to_horiz[4], 
-               elnum = sys_df$el_num[4])
+df <- tube_eff(my_df = df, el_num = 4, my_params = params, my_sys_df = sys_df)
 ```
 
-### At this point, the transport efficiencies have been built into the data frame. Let's have a look at the bottom few rows.
+### At this point, the transport efficiencies have been built into the data frame. Let's have a look at a sample of the lognormal rows and all the discrete rows.
 *It doesn't all fit horizontally, so match the top portion and the bottom portion by the row number.*
 ```{r echo=TRUE, message=TRUE, warning=FALSE}
-tail(df)
+(df[c(seq(100, 700, length.out = 5), 1001:1003), -c(4:7)])
 ```
 
 ### 5) Generate reports with `report_basic`, `report_plots` and `report_cum_plots`
@@ -206,14 +158,7 @@ It therefore only works for individually selected particle sizes.
 We'll show the parameter set first, so that the output message on the basic report, regarding units, makes sense.
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, fig.width=5, fig.height= 3, fig.align = 'center'}
-params[, 7] <- formatC(params[, 7], digits = 2, format = "e")
-params[, 8] <- formatC(params[, 8], digits = 2, format = "e")
-params[, 11] <- formatC(params[, 11], digits = 2, format = "e")
-params[, 3] <- formatC(params[, 3], digits = 4)
-params[, 10] <- formatC(params[, 10], digits = 4)
-ft <- flextable(params)
-ft <- set_caption(ft, "system parameters")
-ft
+report_params(params)
 ```
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, fig.width=5, fig.height= 3, fig.align = 'center'}
@@ -234,43 +179,4 @@ ft <- colformat_double(ft, digits = 3)
 ft <- set_caption(ft, "results for log distribution of particle diameters")
 ft  
 
-```
-
-### 6) Optional extra reports for the logarithmically distributed particle set
-
-The `report_log_mass` function provides details on every particle size.
-
-Since there are 1000 data points, the full ouptput is probably not suitable for a typical report. The report provides the following columns of output: 
-
--  microns = the particle size in micrometers (microns is
-shorter, but is considered superseded by micrometers) 
--  probs = relative probability of a particle being in this size bin 
--  bin_eff = the overall system efficiency for a particle of this size 
--  amb_mass = the probability of the particle multiplied by the mass of a spherical particle with the size given and density of 1 g per ml. This is the relative mass of this particle size in the ambient air being sampled.
--  sampled_mass = the relative mass that made it through the sampling system with this particle size 
--  bin_frac_lost = ambient mass in this bin minus the sampled mass in the bin, divided by the ambient mass
--  total_frac_lost = ambient mass in this bin minus the sampled mass in the bin, divided by the sum of the ambient mass
-
-A random selection of ten rows of the 1000 rows are provided below:
-
-```{r echo=TRUE, message=TRUE, warning=FALSE, fig.width=5, fig.height= 3, fig.align = 'center'}
-df_log <- report_log_mass(df)[sort(sample(1:1000, 10)), ]
-# need to make format changes so that flextable will show scientific notation
-df_log[, 1] <- formatC(df_log[, 1], digits = 4)
-df_log[, 2] <- formatC(df_log[, 2], digits = 2, format = "e")
-df_log[, 3] <- formatC(df_log[, 3], digits = 2, format = "e")
-df_log[, 4] <- formatC(df_log[, 4], digits = 2, format = "e")
-df_log[, 5] <- formatC(df_log[, 5], digits = 2, format = "e")
-df_log[, 6] <- formatC(df_log[, 6], digits = 2, format = "e")
-df_log[, 7] <- formatC(df_log[, 7], digits = 2, format = "e")
-ft <- flextable(df_log)
-ft <- colformat_double(ft, digits = 3)
-ft <- set_caption(ft, "results for random sample of 1000 particle diameters from the log set")
-ft
-```
-
-The particle mass modeled in the ambient air and sampled through the air sampling system is shown with the function `report_plots`.
-
-```{r echo=TRUE, message=TRUE, warning=FALSE, fig.width=5, fig.height= 3, fig.align = 'center'}
-report_plots(df, "log")
 ```

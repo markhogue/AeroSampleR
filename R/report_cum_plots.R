@@ -22,7 +22,7 @@
 #'
 report_cum_plots <- function(df, micron) {
     df <- df |> dplyr::filter(dist == "discrete")
-    D_p = microns = sys_eff = dens = ambient = bin_eff = sampled = . =
+    D_p = microns = sys_eff = prob = ambient = bin_eff = sampled = . =
       starts_with = everything = element = efficiency = dist = NULL
 
     # make a cumulative efficiency set
