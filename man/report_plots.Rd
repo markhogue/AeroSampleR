@@ -4,28 +4,32 @@
 \alias{report_plots}
 \title{plots of individual on transport system elements}
 \usage{
-report_plots(df, dist)
+report_plots(my_df, dist)
 }
 \arguments{
-\item{df}{is the particle data set - after transport analysis by element}
+\item{my_df}{is the particle data set after all element efficiencies
+have been built in. Default is `df`.}
 
 \item{dist}{selects the distribution for the report. Options are
 'discrete' for discrete particle sizes or 'log' for the log-normal
-distribution of particles that were started with the `particle_dist`
-function.}
+distribution of particles.}
 }
 \value{
 A plot of transport efficiencies is generated in a plot window
 }
 \description{
-In order to run a report, first produce a model of each individual
-element. Start with producing a particle distribution
-with the `particle_dist` function, then produce a parameter set with
-the `set_params` function. Both of these results must be stored as
-per examples described in the help set with each. Next, add elements
-in the sample system until all are complete.
+Report plots on models established with this package. See
+examples in the vignette.
 }
 \examples{
-report_plots(dat_for_plots, dist = 'discrete')
+sys_df <- example_sys_df
+params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 60,
+"T_C" = 25, "P_kPa" = 101.325) #example system parameters
+df <- particle_dist() |> # default particle distribution
+      set_params_2(params) |>  #particle size-dependent parameters
+      probe_eff(el_num = 1, my_params = params, my_sys_df = sys_df) |>
+      tube_eff(el_num = 2, my_params = params, my_sys_df = sys_df) |>
+      bend_eff(el_num = 3, my_params = params, my_sys_df = sys_df)
+report_plots(my_df = df, dist = 'discrete')
 
 }

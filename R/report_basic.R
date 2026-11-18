@@ -1,21 +1,12 @@
 #' report on transport efficiency
 #'
-#' In order to run a report, first produce a model of each individual
-#' element. Start with producing a particle distribution
-#' with the `particle_dist` function, then produce a parameter set with
-#' the `set_params` function. Both of these results must be stored as
-#' per examples described in the help set with each. Next, add elements
-#' in the sample system until all are complete.
-#'
-#' @param df is the particle data set (data frame) established with the
-#' `particle_dist` function
-#' @param params is the parameter data set for parameters that are not
-#' particle size-dependent
+#' A basic report on models established with this package. See
+#' examples in the vignette.
+#' @param my_df is the particle data set after all element efficiencies
+#' have been built in. Default is `df`.
 #' @param dist selects the distribution for the report. Options are
 #' 'discrete' for discrete particle sizes or 'log' for the log-normal
-#' distribution of particles that were started with the `particle_dist`
-#' function.
-#'
+#' distribution of particles.
 #' @returns report of system efficiency
 #'
 #' @examples
@@ -26,21 +17,25 @@
 #'       set_params_2(params) |>  #particle size-dependent parameters
 #'       probe_eff(el_num = 1, my_params = params, my_sys_df = sys_df) |>
 #'       tube_eff(el_num = 2, my_params = params, my_sys_df = sys_df) |>
-#'       bend_eff(el_num = 3, my_params = params, my_sys_df = sys_df) |>
-#' report_basic(params, dist = 'discrete')
+#'       bend_eff(el_num = 3, my_params = params, my_sys_df = sys_df)
+#' report_basic(my_df = df, dist = 'discrete')
 #'
 #' @export
-report_basic <-function (df, params, dist) {
-  D_p = microns = sys_eff = prob = ambient = bin_eff = sampled = . = starts_with = NULL
-  eff_cols <- tidyselect::starts_with("eff_", vars = names(df))
+report_basic <-function (my_df = df, dist) {
+
+  # Bind variables locally to satisfy R CMD check
+  D_p <- microns <- sys_eff <- prob <- ambient <- bin_eff <- sampled <- . <- starts_with <-  df <- params <- NULL
+
+  # set up new columns
+  eff_cols <- tidyselect::starts_with("eff_", vars = names(my_df))
   if (dist == "discrete") {
-    df_disc <- dplyr::filter(df, dist == "discrete")
+    df_disc <- dplyr::filter(my_df, dist == "discrete")
     df_disc$sys_eff <- apply(df_disc[, eff_cols], 1, prod)
     discrete_report <- dplyr::select(df_disc, D_p, sys_eff)
     return(discrete_report)
   }
   if (dist == "log") {
-    df_log <- dplyr::filter(df, dist == "log_norm")
+    df_log <- dplyr::filter(my_df, dist == "log_norm")
     df_log$bin_eff <- apply(df_log[, eff_cols], 1, prod)
     df_log$sampled <- df_log$prob * df_log$bin_eff
     data.frame(`activity fraction sampled` = sum(df_log$sampled)/sum(df_log$prob))

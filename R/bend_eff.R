@@ -9,8 +9,7 @@
 #' @param my_df is the particle data set (data frame) established with the
 #' `particle_dist` function. Default is `df`.
 #' @param my_sys_df is a data frame describing the system. See [example_sys_df]. Default is `sys_df`
-#' @param my_params is the parameter data set for parameters that are not
-#' particle size-dependent
+#' @param my_params is the parameter data set for parameters that are not particle size-dependent. Default is `params`
 #' @param method choice of models: Pui or Zhang. Zhang is the default.
 #'
 #' @references

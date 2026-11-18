@@ -1,3 +1,6 @@
+# AeroSampleR (version 0.4.1)
+***2026-11-18*** Some minor fixes consistent with 0.4.0 where the arguments were changed from df to my_df = df, etc. Forgot to update the report functions the same way.  
+
 # AeroSampleR (version 0.4.0)
 ***2026-11-12*** Fixed error in tube_eff formula. Changed distribution term from dens (density) to prob (bin probability). Updated documentation in the functions.
 

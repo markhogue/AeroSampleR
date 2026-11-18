@@ -4,30 +4,22 @@
 \alias{report_basic}
 \title{report on transport efficiency}
 \usage{
-report_basic(df, params, dist)
+report_basic(my_df = df, dist)
 }
 \arguments{
-\item{df}{is the particle data set (data frame) established with the
-`particle_dist` function}
-
-\item{params}{is the parameter data set for parameters that are not
-particle size-dependent}
+\item{my_df}{is the particle data set after all element efficiencies
+have been built in. Default is `df`.}
 
 \item{dist}{selects the distribution for the report. Options are
 'discrete' for discrete particle sizes or 'log' for the log-normal
-distribution of particles that were started with the `particle_dist`
-function.}
+distribution of particles.}
 }
 \value{
 report of system efficiency
 }
 \description{
-In order to run a report, first produce a model of each individual
-element. Start with producing a particle distribution
-with the `particle_dist` function, then produce a parameter set with
-the `set_params` function. Both of these results must be stored as
-per examples described in the help set with each. Next, add elements
-in the sample system until all are complete.
+A basic report on models established with this package. See
+examples in the vignette.
 }
 \examples{
 sys_df <- example_sys_df
@@ -37,7 +29,7 @@ df <- particle_dist() |> # default particle distribution
       set_params_2(params) |>  #particle size-dependent parameters
       probe_eff(el_num = 1, my_params = params, my_sys_df = sys_df) |>
       tube_eff(el_num = 2, my_params = params, my_sys_df = sys_df) |>
-      bend_eff(el_num = 3, my_params = params, my_sys_df = sys_df) |>
-report_basic(params, dist = 'discrete')
+      bend_eff(el_num = 3, my_params = params, my_sys_df = sys_df)
+report_basic(my_df = df, dist = 'discrete')
 
 }

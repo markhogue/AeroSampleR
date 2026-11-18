@@ -1,32 +1,39 @@
 #' report on cumulative transport system efficiency (discrete particle sizes only)
 #'
-#' In order to run a report, first produce a model of each individual
-#' element. Start with producing a particle distribution
-#' with the `particle_dist` function, then produce a parameter set with
-#' the `set_params` function. Both of these results must be stored as
-#' per examples described in the help set with each. Next, add elements
-#' in the sample system until all are complete.
+#' Report plots on models showing cumulative efficiencies established with
+#' this package. See examples in the vignette.
 #'
-#' @param df is the particle data set - after transport analysis by element
+#' @param my_df is the particle data set after all element efficiencies
+#' have been built in. Default is `df`.
+#'
 #' @param micron selects the particle size (aerodynamic mass activity
-#' diameter in micrometers). This must be selected from the original
-#' distribution of particles that were started with the `particle_dist`
-#' function.
+#' diameter in micrometers). Default is 5.
 #'
 #' @return A plot of cumulative transport efficiencies is generated in a plot window
 #'
 #' @examples
-#' report_cum_plots(dat_for_plots, micron = 10)
+#' sys_df <- example_sys_df
+#' params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 60,
+#' "T_C" = 25, "P_kPa" = 101.325) #example system parameters
+#' df <- particle_dist() |> # default particle distribution
+#'       set_params_2(params) |>  #particle size-dependent parameters
+#'       probe_eff(el_num = 1, my_params = params, my_sys_df = sys_df) |>
+#'       tube_eff(el_num = 2, my_params = params, my_sys_df = sys_df) |>
+#'       bend_eff(el_num = 3, my_params = params, my_sys_df = sys_df)
+#' report_cum_plots(my_df = df, micron = 10)
 #'
 #' @export
 #'
-report_cum_plots <- function(df, micron) {
-    df <- df |> dplyr::filter(dist == "discrete")
-    D_p = microns = sys_eff = prob = ambient = bin_eff = sampled = . =
-      starts_with = everything = element = efficiency = dist = NULL
+report_cum_plots <- function(my_df = df, micron = 5) {
+
+    my_df <- my_df |> dplyr::filter(dist == "discrete")
+
+    # Bind variables locally to satisfy R CMD check
+    D_p <- sys_eff <- prob <- ambient <- bin_eff <- sampled <- . <-
+      stats <- df <-  starts_with <- everything <- element <- efficiency <- dist <- NULL
 
     # make a cumulative efficiency set
-    df_effs <- df |>
+    df_effs <- my_df |>
         dplyr::filter(D_p == micron) |>
         dplyr::select(., tidyselect::starts_with("eff_"))
     df_effs[1, ] <- cumprod(as.numeric(df_effs))
@@ -35,7 +42,6 @@ report_cum_plots <- function(df, micron) {
     # plot by element, by particle size
     df_effs <- df_effs |>
         tidyr::pivot_longer(cols = everything(), names_to = "element", values_to = "efficiency")
-
 
     df_effs$element <- factor(df_effs$element, levels = df_effs$element)
 
@@ -46,4 +52,3 @@ report_cum_plots <- function(df, micron) {
             " micrometer"))
     return(plt)
 }
-

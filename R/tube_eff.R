@@ -146,8 +146,8 @@ tube_eff <- function (my_df = df,
   K <- 3/4 * t_prime
 
   # Blunt Eq. 29
-  eff_grav_lam <- 1 - (2/pi) * (2 * K * sqrt(1 - K^(2/3)) -
-                                  K^(1/3) * sqrt(1 - K^(2/3)) + asin(K^(1/3)))
+  eff_grav_lam <- suppressWarnings(1 - (2/pi) *
+                (2 * K * sqrt(1 - K^(2/3)) -                                  K^(1/3) * sqrt(1 - K^(2/3)) + asin(K^(1/3))))
   # fix the NAs.
   eff_grav_lam[is.na(eff_grav_lam)] <- 0
 

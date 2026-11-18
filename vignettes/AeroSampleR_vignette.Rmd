@@ -163,18 +163,19 @@ report_params(params)
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, fig.width=5, fig.height= 3, fig.align = 'center'}
 
-ft <- flextable(report_basic(df, params, "discrete"))
+ft <- flextable(report_basic(my_df = df, dist = "discrete"))
 ft <- colformat_double(ft, digits = 3)
 ft <- set_caption(ft, "results for discrete particle diameters")
 ft
 
-report_plots(df, "discrete")
-report_cum_plots(df, 1)
-report_cum_plots(df, 5)
-report_cum_plots(df, 10)
+report_plots(my_df = df, "discrete")
+
+report_cum_plots(my_df = df, 1)
+report_cum_plots(my_df = df, 5)
+report_cum_plots(my_df = df, 10)
 
 
-ft <- flextable(report_basic(df, params, "log"))
+ft <- flextable(report_basic(my_df = df, dist = "log"))
 ft <- colformat_double(ft, digits = 3)
 ft <- set_caption(ft, "results for log distribution of particle diameters")
 ft  

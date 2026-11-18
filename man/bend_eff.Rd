@@ -20,8 +20,7 @@ bend_eff(
 
 \item{my_sys_df}{is a data frame describing the system. See [example_sys_df]. Default is `sys_df`}
 
-\item{my_params}{is the parameter data set for parameters that are not
-particle size-dependent}
+\item{my_params}{is the parameter data set for parameters that are not particle size-dependent. Default is `params`}
 
 \item{method}{choice of models: Pui or Zhang. Zhang is the default.}
 }

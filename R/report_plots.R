@@ -1,37 +1,39 @@
 #' plots of individual on transport system elements
 #'
-#' In order to run a report, first produce a model of each individual
-#' element. Start with producing a particle distribution
-#' with the `particle_dist` function, then produce a parameter set with
-#' the `set_params` function. Both of these results must be stored as
-#' per examples described in the help set with each. Next, add elements
-#' in the sample system until all are complete.
+#' Report plots on models established with this package. See
+#' examples in the vignette.
 #'
-#' @param df is the particle data set - after transport analysis by element
+#' @param my_df is the particle data set after all element efficiencies
+#' have been built in. Default is `df`.
 #' @param dist selects the distribution for the report. Options are
 #' 'discrete' for discrete particle sizes or 'log' for the log-normal
-#' distribution of particles that were started with the `particle_dist`
-#' function.
+#' distribution of particles.
 #'
 #' @return A plot of transport efficiencies is generated in a plot window
 #'
 #' @examples
-#' report_plots(dat_for_plots, dist = 'discrete')
+#' sys_df <- example_sys_df
+#' params <- set_params_1("D_tube" = 2.54, "Q_lpm" = 60,
+#' "T_C" = 25, "P_kPa" = 101.325) #example system parameters
+#' df <- particle_dist() |> # default particle distribution
+#'       set_params_2(params) |>  #particle size-dependent parameters
+#'       probe_eff(el_num = 1, my_params = params, my_sys_df = sys_df) |>
+#'       tube_eff(el_num = 2, my_params = params, my_sys_df = sys_df) |>
+#'       bend_eff(el_num = 3, my_params = params, my_sys_df = sys_df)
+#' report_plots(my_df = df, dist = 'discrete')
 #'
 #' @export
 #'
-report_plots <- function (df, dist) {
-  D_p = microns = sys_eff = prob = ambient = bin_eff = sampled = . = starts_with = everything = element = efficiency = amb_mass = rel_activity = location = NULL
-  eff_cols <- tidyselect::starts_with("eff_", vars = names(df))
+report_plots <- function (my_df, dist) {
+
+  # Bind variables locally to satisfy R CMD check
+  all_of <- D_p <- microns <- sys_eff <- prob <- ambient <- bin_eff <- sampled <- . <- starts_with <- everything <- element <- efficiency <- amb_mass <- rel_activity <- location <- NULL
+
+  eff_cols <- tidyselect::starts_with("eff_", vars = names(my_df))
   if (dist == "discrete") {
 
-    # Bind variables locally to satisfy R CMD check
-    all_of <- NULL
-
-
     df_long <- tidyr::pivot_longer(dplyr::select(
-      dplyr::filter(df,
-                    #                                   dist == "discrete"), .,
+      dplyr::filter(my_df,
                     dist == "discrete"),
       all_of(.),
       c(D_p, tidyselect::starts_with("eff_"))),
@@ -49,7 +51,7 @@ report_plots <- function (df, dist) {
     return(plt)
   }
   if (dist == "log") {
-    df_log <- dplyr::filter(df, dist == "log_norm")
+    df_log <- dplyr::filter(my_df, dist == "log_norm")
     df_log$bin_eff <- apply(df_log[, eff_cols], 1, prod)
     df_log$sampled <- df_log$prob * df_log$bin_eff
     data.frame(`activity fraction sampled` = sum(df_log$sampled)/sum(df_log$prob))
